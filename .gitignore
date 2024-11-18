@@ -12,7 +12,9 @@
 *.log
 # production
 /build
-
+/.vscode
+/yousof-talebian
+/build/
 # misc
 .DS_Store
 .env.local
@@ -23,5 +25,3 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-
