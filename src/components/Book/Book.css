@@ -1,0 +1,47 @@
+.Book {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: 2rem;
+  border-radius: 1rem;
+  background: #58422c;
+  padding: 1rem 1.5rem;
+  color: #dfdede;
+
+  .description {
+    color: #dfdede;
+    font-size: 1rem;
+  }
+}
+
+@media only screen and (min-width : 768px) {
+  .Book {
+    width: calc(50% - 5px);
+  }
+}
+
+
+@media only screen and (min-width : 1024px) {
+  .Book {
+    width: calc(33% - 5px);
+  }
+}
+
+@media only screen and (min-width : 1500px) {
+  .Book {
+    width: calc(25% - 10px);
+  }
+}
+
+.btn {
+  padding: 0.3rem 1rem;
+  background: #b3b2b2;
+  border: none;
+  border-radius: 0.3rem;
+  font: inherit;
+  font-size: 0.9rem;
+  color: #212121;
+}
