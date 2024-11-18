@@ -1,0 +1,50 @@
+.add-Book-form {
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  padding: 0rem 0;
+}
+
+.form-control {
+  display: flex;
+  flex-direction: column;
+  padding: .6rem 0;
+  border-radius: 20px;
+  border: 2px solid #e0e0e0;
+  padding: 0.5rem 0.6rem;
+
+  input {
+    padding: 0.3rem;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #e0e0e0;
+    font: inherit;
+    color: #e0e0e0;
+    outline: none;
+    border-radius: 10px;
+  }
+  #commentTXT{
+
+    padding: 0.3rem;
+    margin: .6rem 0;
+    background: #212121;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+
+    font: inherit;
+    color: #e0e0e0;
+    outline: none;
+  }
+}
+
+.form-btn {
+  margin: .7rem;
+  background: transparent;
+  border: none;
+  font: inherit;
+  color: #e0e0e0;
+  border: 2px solid #cfcfcfd7;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+
+}
