@@ -14,7 +14,7 @@
 /build
 /.vscode
 /yousof-talebian
-/build/
+
 # misc
 .DS_Store
 .env.local

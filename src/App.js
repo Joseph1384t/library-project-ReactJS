@@ -2,36 +2,33 @@
 import { useState, useEffect } from "react"; //وارد کردن هوک‌ها: از useState و useEffect برای مدیریت وضعیت و درخواست‌های API استفاده شده
 import BookList from "./components/BookList/BookList"; // کامپوننت BookList برای نمایش لیست کتاب‌ها و حذف آن‌ها.//////Books: یک state برای ذخیره لیست کتاب‌ها.
 import AddBook from "./components/AddBook/AddBook"; //deleteBook: ارسال درخواست DELETE برای حذف یک کتاب خاص.
-import {
-  fetchBooksFromServer,
-  addBookToServer,
-  deleteBookFromServer,
-} from "./api"; // کامپوننت AddBook برای افزودن کتاب.
-// import Login from "./components/Login/Login";
+import * as api from "./api";
+ // کامپوننت AddBook برای افزودن کتاب.
+import Login from "./components/Login/Login";
 
 const App = () => {
   // State management for the list of books//+
   const [Books, setBooks] = useState([]);
-  // const [token, setToken] = useState(null); // ذخیره توکن
+  const [token, setToken] = useState(null); // ذخیره توکن
   // Fetching data from the API when the component mounts//+
   // دریافت کتاب‌ها از سرور در هنگام بارگذاری کامپوننت
   useEffect(() => {
     if (!token) return; // اگر لاگین نشده، کتاب‌ها را دریافت نکن
+
     const fetchBooks = async () => {
       try {
-        const books = await fetchBooksFromServer();
-        setBooks(books); // به‌روزرسانی state با داده‌های دریافت‌شده
+        const books = await api.fetchBooksFromServer(token); // ارسال توکن
+        setBooks(books);
       } catch (error) {
         console.error("Error fetching books:", error);
       }
     };
-
     fetchBooks();
   }, []);
 
   const handleLogin = async (username, password) => {
     try {
-      const token = await loginToServer(username, password);
+      const token = await api.loginToServer(username, password);
       setToken(token); // ذخیره توکن پس از لاگین موفق
     } catch (error) {
       throw error;
@@ -41,8 +38,8 @@ const App = () => {
   // تابع برای افزودن کتاب
   const addBook = async (title, desc) => {
     try {
-      const newBook = await addBookToServer(title, desc);
-      setBooks([...Books, newBook]); // افزودن کتاب جدید به state
+      const newBook = await api.addBookToServer(title, desc, token); // ارسال توکن
+      setBooks([...Books, newBook]);
     } catch (error) {
       console.error("Error adding book:", error);
     }
@@ -51,8 +48,8 @@ const App = () => {
   // تابع برای حذف کتاب
   const deleteBook = async (id) => {
     try {
-      await deleteBookFromServer(id);
-      setBooks(Books.filter((book) => book.id !== id)); // حذف کتاب از state
+      await api.deleteBookFromServer(id, token); // ارسال توکن
+      setBooks(Books.filter((book) => book.id !== id));
     } catch (error) {
       console.error("Error deleting book:", error);
     }
@@ -60,8 +57,14 @@ const App = () => {
 
   return (
     <div className="container">
-      <AddBook onAdd={addBook} />
-      <BookList Books={Books} onDelete={deleteBook} />
+      {!token ? ( // اگر لاگین نشده، فرم لاگین را نشان بده
+        <Login onLogin={handleLogin} />
+      ) : (
+        <>
+          <AddBook onAdd={addBook} />
+          <BookList Books={Books} onDelete={deleteBook} />
+        </>
+      )}
     </div>
   );
 };

@@ -17,32 +17,42 @@ export const loginToServer = async (username, password) => {
   return data.token; // فرض می‌کنیم سرور یک توکن JWT بازمی‌گرداند
 };
 
-export const fetchBooksFromServer = async () => {
-  const response = await fetch(API_URL);
+export const fetchBooksFromServer = async (token) => {
+  const response = await fetch(API_URL, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`, // ارسال توکن
+    },
+  });
   if (!response.ok) throw new Error("Failed to fetch books");
   return response.json();
 };
 
-export const addBookToServer = async (title, desc) => {
+export const addBookToServer = async (title, desc, token) => {
   const response = await fetch(API_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`, // ارسال توکن
     },
     body: JSON.stringify({ title, desc }),
   });
-
-  if (!response.ok) {
-    throw new Error("Failed to add book");
-  }
-  return await response.json();
+  if (!response.ok) throw new Error("Failed to add book");
+  return response.json();
 };
 // addBook: ارسال درخواست POST برای افزودن کتاب جدید.//-
 // Function to add a new book//+
 
-export const deleteBookFromServer = async (id) => {
-  const response = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+export const deleteBookFromServer = async (id, token) => {
+  const response = await fetch(`${API_URL}/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`, // ارسال توکن
+    },
+  });
   if (!response.ok) throw new Error("Failed to delete book");
 };
 // deleteBook: ارسال درخواست DELETE برای حذف یک کتاب خاص.//-
 // Function to delete a book//+
+
+
