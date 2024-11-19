@@ -1,4 +1,21 @@
 const API_URL = "http://localhost:8000/Library";
+const AUTH_URL = "http://localhost:8000/auth/login";
+
+export const loginToServer = async (username, password) => {
+  const response = await fetch(AUTH_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ username, password }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Login failed");
+  }
+  const data = await response.json();
+  return data.token; // فرض می‌کنیم سرور یک توکن JWT بازمی‌گرداند
+};
 
 export const fetchBooksFromServer = async () => {
   const response = await fetch(API_URL);
