@@ -3,12 +3,11 @@ import { useState, useEffect } from "react"; //وارد کردن هوک‌ها: 
 import BookList from "./components/BookList/BookList"; // کامپوننت BookList برای نمایش لیست کتاب‌ها و حذف آن‌ها.//////Books: یک state برای ذخیره لیست کتاب‌ها.
 import AddBook from "./components/AddBook/AddBook"; //deleteBook: ارسال درخواست DELETE برای حذف یک کتاب خاص.
 import * as api from "./api";
- // کامپوننت AddBook برای افزودن کتاب.
+// کامپوننت AddBook برای افزودن کتاب.
 import Login from "./components/Login/Login";
 
 const App = () => {
-  // State management for the list of books//+
-  const [Books, setBooks] = useState([]);
+  const [Books, setBooks] = useState([]); // State management for the list of books//+
   const [token, setToken] = useState(null); // ذخیره توکن
   // Fetching data from the API when the component mounts//+
   // دریافت کتاب‌ها از سرور در هنگام بارگذاری کامپوننت
@@ -24,7 +23,7 @@ const App = () => {
       }
     };
     fetchBooks();
-  }, []);
+  }, [token]);
 
   const handleLogin = async (username, password) => {
     try {
