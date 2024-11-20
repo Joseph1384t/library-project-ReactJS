@@ -1,5 +1,5 @@
 //این فایل شامل کامپوننت اصلی React
-import { useState, useEffect } from "react"; //وارد کردن هوک‌ها: از useState و useEffect برای مدیریت وضعیت و درخواست‌های API استفاده شده
+import { useState/*, useEffect */} from "react"; //وارد کردن هوک‌ها: از useState و useEffect برای مدیریت وضعیت و درخواست‌های API استفاده شده
 import BookList from "./components/BookList/BookList"; // کامپوننت BookList برای نمایش لیست کتاب‌ها و حذف آن‌ها.//////Books: یک state برای ذخیره لیست کتاب‌ها.
 import AddBook from "./components/AddBook/AddBook"; //deleteBook: ارسال درخواست DELETE برای حذف یک کتاب خاص.
 import * as api from "./api";
@@ -38,21 +38,8 @@ const App = () => {
       console.error("Error deleting book:", error);
     }
   };
-  const BookList = ({ Books, onDelete, token }) => {
-    return (
-      <div className="Book-list">
-        {Books.map((item) => {
-          return (
-            <Book 
-              key={item.id} 
-              Book={item} 
-              onDelete={(id) => onDelete(id, token)} // ارسال توکن
-            />
-          );
-        })}
-      </div>
-    );
-  };
+
+
   return (
     <div className="container">
       {!token ? ( // اگر لاگین نشده، فرم لاگین را نشان بده
@@ -60,7 +47,7 @@ const App = () => {
       ) : (
         <>
           <AddBook onAdd={addBook} />
-          <BookList Books={Books} onDelete={deleteBook} />
+          <BookList Books={Books} onDelete={deleteBook} token={token} />
         </>
       )}
     </div>

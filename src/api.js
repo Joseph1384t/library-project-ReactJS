@@ -25,7 +25,6 @@ export const loginToServer = async (username, password) => {
     console.error("Error logging in:", err);
     throw err;
   }
-  return;
 };
 
 // export const fetchBooksFromServer = async (title, description, token) => {
@@ -55,7 +54,6 @@ export const addBookToServer = async (title, description, token) => {
 };
 // addBook: ارسال درخواست POST برای افزودن کتاب جدید.//-
 // Function to add a new book//+
-
 export const deleteBookFromServer = async (id, token) => {
   const response = await fetch(`${API_URL_DRP}/${id}`, {
     method: "DELETE",
