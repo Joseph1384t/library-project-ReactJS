@@ -4,7 +4,7 @@ const API_URL_DRP = "https://127.0.0.1:8585/v4/drop";
 
 export const loginToServer = async (username, password) => {
   console.log("Logging in...");
-  try{
+  try {
     const response = await fetch(AUTH_URL, {
       method: "POST",
       headers: {
@@ -12,20 +12,20 @@ export const loginToServer = async (username, password) => {
       },
       body: JSON.stringify({ username, password }),
     });
-  
-    if (!response.ok) {
 
+    if (!response.ok) {
       console.error("Login failed:", response.statusText);
       // throw new Error("Login failed");
     }
+    
     const data = await response.json();
     console.log("data" + data);
-  return data.token; // فرض می‌کنیم سرور یک توکن JWT بازمی‌گرداند
-  }catch (err) {
+    return data.token; // فرض می‌کنیم سرور یک توکن JWT بازمی‌گرداند
+  } catch (err) {
     console.error("Error logging in:", err);
     throw err;
   }
-  return
+  return;
 };
 
 // export const fetchBooksFromServer = async (title, description, token) => {

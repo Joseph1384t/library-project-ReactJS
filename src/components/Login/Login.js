@@ -4,10 +4,10 @@ import "./Login.css";
 const Login = ({ onLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
+///////
   console.log("Username:", username);
   console.log("Password:", password);
-
+///////
   const handleSubmit = async (event) => {
     console.log("Handling login submission...");
     event.preventDefault();

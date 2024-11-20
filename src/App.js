@@ -10,20 +10,6 @@ const App = () => {
   const [Books, setBooks] = useState([]); // State management for the list of books//+
   const [token, setToken] = useState(null); // ذخیره توکن     // Fetching data from the API when the component mounts//+        // دریافت کتاب‌ها از سرور در هنگام بارگذاری کامپوننت
 
-  // useEffect(() => {
-  //   if (!token) return; // اگر لاگین نشده، کتاب‌ها را دریافت نکن
-
-  //   const fetchBooks = async () => {
-  //     try {
-  //       const books = await api.fetchBooksFromServer(token); // ارسال توکن
-  //       setBooks(books);
-  //     } catch (error) {
-  //       console.error("Error fetching books:", error);
-  //     }
-  //   };
-  //   fetchBooks();
-  // }, [token]);
-
   const handleLogin = async (username, password) => {
     try {
       const token = await api.loginToServer(username, password);
@@ -32,7 +18,7 @@ const App = () => {
       throw error;
     }
   };
-
+  
   // تابع برای افزودن کتاب
   const addBook = async (title, description) => {
     try {
@@ -52,7 +38,21 @@ const App = () => {
       console.error("Error deleting book:", error);
     }
   };
-
+  const BookList = ({ Books, onDelete, token }) => {
+    return (
+      <div className="Book-list">
+        {Books.map((item) => {
+          return (
+            <Book 
+              key={item.id} 
+              Book={item} 
+              onDelete={(id) => onDelete(id, token)} // ارسال توکن
+            />
+          );
+        })}
+      </div>
+    );
+  };
   return (
     <div className="container">
       {!token ? ( // اگر لاگین نشده، فرم لاگین را نشان بده
