@@ -8,22 +8,21 @@ import Login from "./components/Login/Login";
 
 const App = () => {
   const [Books, setBooks] = useState([]); // State management for the list of books//+
-  const [token, setToken] = useState(null); // ذخیره توکن
-  // Fetching data from the API when the component mounts//+
-  // دریافت کتاب‌ها از سرور در هنگام بارگذاری کامپوننت
-  useEffect(() => {
-    if (!token) return; // اگر لاگین نشده، کتاب‌ها را دریافت نکن
+  const [token, setToken] = useState(null); // ذخیره توکن     // Fetching data from the API when the component mounts//+        // دریافت کتاب‌ها از سرور در هنگام بارگذاری کامپوننت
 
-    const fetchBooks = async () => {
-      try {
-        const books = await api.fetchBooksFromServer(token); // ارسال توکن
-        setBooks(books);
-      } catch (error) {
-        console.error("Error fetching books:", error);
-      }
-    };
-    fetchBooks();
-  }, [token]);
+  // useEffect(() => {
+  //   if (!token) return; // اگر لاگین نشده، کتاب‌ها را دریافت نکن
+
+  //   const fetchBooks = async () => {
+  //     try {
+  //       const books = await api.fetchBooksFromServer(token); // ارسال توکن
+  //       setBooks(books);
+  //     } catch (error) {
+  //       console.error("Error fetching books:", error);
+  //     }
+  //   };
+  //   fetchBooks();
+  // }, [token]);
 
   const handleLogin = async (username, password) => {
     try {
@@ -35,9 +34,9 @@ const App = () => {
   };
 
   // تابع برای افزودن کتاب
-  const addBook = async (title, desc) => {
+  const addBook = async (title, description) => {
     try {
-      const newBook = await api.addBookToServer(title, desc, token); // ارسال توکن
+      const newBook = await api.addBookToServer(title, description, token); // ارسال توکن
       setBooks([...Books, newBook]);
     } catch (error) {
       console.error("Error adding book:", error);

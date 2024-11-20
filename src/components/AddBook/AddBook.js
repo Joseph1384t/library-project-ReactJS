@@ -4,17 +4,17 @@ import "./AddBook.css";
 
 const AddBook = ({ onAdd }) => {
   const [title, setTitle] = useState("");
-  const [desc, setDesc] = useState("");
+  const [description, setDescription] = useState("");
 
   const submitForm = (event) => {
     event.preventDefault();
-    if (!title.trim() || !desc.trim()) {
+    if (!title.trim() || !description.trim()) {
       alert("Both title and description are required.");
       return;
     }
-    onAdd(title, desc);
+    onAdd(title, description);
     setTitle("");
-    setDesc("");
+    setDescription("");
   };
   
 
@@ -33,8 +33,8 @@ const AddBook = ({ onAdd }) => {
             placeholder="Add Comment"
             rows="4"
             cols="50"
-            value={desc}
-            onChange={(inp) => setDesc(inp.target.value)}
+            value={description}
+            onChange={(inp) => setDescription(inp.target.value)}
           ></textarea>
         </div>
         <button type="submit" className="form-btn">

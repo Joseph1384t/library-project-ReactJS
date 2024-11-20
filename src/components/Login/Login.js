@@ -5,7 +5,11 @@ const Login = ({ onLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  console.log("Username:", username);
+  console.log("Password:", password);
+
   const handleSubmit = async (event) => {
+    console.log("Handling login submission...");
     event.preventDefault();
     if (!username.trim() || !password.trim()) {
       alert("Please enter both username and password.");
@@ -24,7 +28,7 @@ const Login = ({ onLogin }) => {
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
         <h2>Login</h2>
-        <div className="form-control">
+        <div className="login-form-control">
           <input
             type="text"
             placeholder="Username"
@@ -32,7 +36,7 @@ const Login = ({ onLogin }) => {
             onChange={(e) => setUsername(e.target.value)}
           />
         </div>
-        <div className="form-control">
+        <div className="login-form-control">
           <input
             type="password"
             placeholder="Password"
