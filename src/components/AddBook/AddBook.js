@@ -16,7 +16,6 @@ const AddBook = ({ onAdd }) => {
     setTitle("");
     setDescription("");
   };
-  
 
   return (
     <div>
