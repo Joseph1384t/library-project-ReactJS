@@ -2,8 +2,8 @@ import Book from "../Book/Book";
 import "./BookList.css";
 
 const BookList = ({ Books, onDelete, accessToken }) => {
-  console.log("Books : " + JSON.stringify({ Books }));
-  console.log("onDelete : " + onDelete);
+  console.log("Books : " + JSON.stringify({ ...Books }));
+  // console.log("onDelete : " + onDelete);
   // onDelete
   return (
     <div className="Book-list">

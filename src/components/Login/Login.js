@@ -7,6 +7,14 @@ const Login = ({ onLogin }) => {
   ///////
   console.log("Username:", username);
   console.log("Password:", password);
+  // localStorage.clear(); // همه داده‌ها را از localStorage پاک می‌کند
+  const accessToken = localStorage.getItem("accessToken");
+  // اگر access token موجود بود، آن را لاگ بگیرد
+  if (accessToken) {
+    console.log("Access Token: ", accessToken);
+  } else {
+    console.log("No access token found");
+  }
   ///////
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -32,7 +40,7 @@ const Login = ({ onLogin }) => {
             type="text"
             placeholder="Username"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}//\\پرسیدن این بخش e
+            onChange={(e) => setUsername(e.target.value)} //\\پرسیدن این بخش e
           />
         </div>
         <div className="login-form-control">
