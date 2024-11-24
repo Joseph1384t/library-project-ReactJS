@@ -9,7 +9,6 @@ const Login = ({ onLogin }) => {
   console.log("Password:", password);
   ///////
   const handleSubmit = async (event) => {
-    console.log("Handling login submission...");
     event.preventDefault();
     if (!username.trim() || !password.trim()) {
       alert("Please enter both username and password.");
@@ -33,7 +32,7 @@ const Login = ({ onLogin }) => {
             type="text"
             placeholder="Username"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => setUsername(e.target.value)}//\\پرسیدن این بخش e
           />
         </div>
         <div className="login-form-control">

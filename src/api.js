@@ -1,11 +1,30 @@
-const API_URL = "https://127.0.0.1:8585/v4/save";
-const AUTH_URL = "https://127.0.0.1:8585/v4/login";
-const API_URL_DRP = "https://127.0.0.1:8585/v4/drop";
+const API_URL = "https://127.0.0.1:8585";
+
+// const refreshAccessToken = async () => {
+//   try {
+//     const storedRefreshToken = localStorage.getItem("refreshToken");
+//     const response = await fetch(`${API_URL}/refresh`, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({ refreshToken: storedRefreshToken }),
+//     });
+
+//     if (!response.ok) throw new Error("Failed to refresh token");
+//     const data = await response.json();
+//     setAccessToken(data.accessToken);
+//   } catch (error) {
+//     console.error("Token refresh failed:", error);
+//     handleLogout(); // در صورت شکست در Refresh، کاربر را لاگ‌اوت کنید
+//   }
+// };
+
 
 export const loginToServer = async (username, password) => {
-  console.log("Logging in...");
+  console.log("loginToServer is runnig...");
   try {
-    const response = await fetch(AUTH_URL, {
+    const response = await fetch(`${API_URL}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -19,20 +38,20 @@ export const loginToServer = async (username, password) => {
     }
 
     const data = await response.json();
-    // console.log("data :  " + data.username);
-    return data.token; // فرض می‌کنیم سرور یک توکن JWT بازمی‌گرداند
+    console.log("data :  " + JSON.stringify(data));
+    return data; // فرض می‌کنیم سرور یک توکن JWT بازمی‌گرداند
   } catch (err) {
     console.error("Error logging in:", err);
     throw err;
   }
 };
 
-// export const fetchBooksFromServer = async (title, description, token) => {
-//   const response = await fetch(API_URL, {
+// export const fetchBooksFromServer = async (title, description, accessToken) => {
+//   const response = await fetch(`${API_URL}/getall`, {
 //     method: "POST",
 //     headers: {
 //       "Content-Type": "application/json",
-//       Authorization: `Bearer ${token}`, // ارسال توکن
+//       Authorization: `Bearer ${accessToken}`, // ارسال توکن
 //     },
 //     body: JSON.stringify({ title, description })
 //   });
@@ -40,28 +59,33 @@ export const loginToServer = async (username, password) => {
 //   return response.json();
 // };
 
-export const addBookToServer = async (title, description, token) => {
+export const addBookToServer = async (title, description, accessToken) => {
   console.log("Adding to...");
-  const response = await fetch(API_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`, // ارسال توکن
-    },
-    body: JSON.stringify({ title, description }),
-  });
-  console.log("Login to lib:   ", response.statusText);
-  const data = await response.json();
-  if (!response.ok) throw new Error("Failed to add book");
-  return data;
+  try {
+    const response = await fetch(`${API_URL}/save`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`, // ارسال توکن
+      },
+      body: JSON.stringify({ title, description }),
+    });
+    console.log("Login to lib:   ", response.statusText);
+    const data = await response.json();
+    if (!response.ok) throw new Error("Failed to add book");
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
 };
+
 // addBook: ارسال درخواست POST برای افزودن کتاب جدید.//-
 // Function to add a new book//+
-export const deleteBookFromServer = async (id, token) => {
-  const response = await fetch(`${API_URL_DRP}/${id}`, {
+export const deleteBookFromServer = async (id, accessToken) => {
+  const response = await fetch(`${API_URL}/drop/${id}`, {
     method: "DELETE",
     headers: {
-      Authorization: `Bearer ${token}`, // ارسال توکن
+      Authorization: `Bearer ${accessToken}`, // ارسال توکن
     },
   });
   if (!response.ok) throw new Error("Failed to delete book");

@@ -8,12 +8,16 @@ import Login from "./components/Login/Login";
 
 const App = () => {
   const [Books, setBooks] = useState([]); // State management for the list of books//+
-  const [token, setToken] = useState(null); // ذخیره توکن     // Fetching data from the API when the component mounts//+        // دریافت کتاب‌ها از سرور در هنگام بارگذاری کامپوننت
-
+  const [accessToken, setAccessToken] = useState(null); // ذخیره توکن     // Fetching data from the API when the component mounts//+        // دریافت کتاب‌ها از سرور در هنگام بارگذاری کامپوننت
+  const [refreshToken, setRefreshToken] = useState(null);
+  
   const handleLogin = async (username, password) => {
     try {
-      const token = await api.loginToServer(username, password);
-      setToken(token); // ذخیره توکن پس از لاگین موفق
+      const response = await api.loginToServer(username, password);
+      setAccessToken(response.accessToken); // ذخیره توکن پس از لاگین موفق
+      console.log("accessToken : "+accessToken); // ذخیره توکن پس از لاگین موفق
+      setRefreshToken(response.refreshToken);
+      localStorage.setItem("refreshToken", response.refreshToken);
     } catch (error) {
       throw error;
     }
@@ -22,7 +26,7 @@ const App = () => {
   // تابع برای افزودن کتاب
   const addBook = async (title, description) => {
     try {
-      const newBook = await api.addBookToServer(title, description, token); // ارسال توکن
+      const newBook = await api.addBookToServer(title, description, accessToken); // ارسال توکن
       setBooks([...Books, newBook]);
     } catch (error) {
       console.error("Error adding book:", error);
@@ -32,14 +36,14 @@ const App = () => {
   // تابع برای حذف کتاب
   const deleteBook = async (id) => {
     try {
-      await api.deleteBookFromServer(id, token); // ارسال توکن
+      await api.deleteBookFromServer(id, accessToken); // ارسال توکن
       setBooks(Books.filter((book) => book.id !== id));
     } catch (error) {
       console.error("Error deleting book:", error);
     }
   };
 
-  // const BookList = ({ Books, onDelete, token }) => {
+  // const BookList = ({ Books, onDelete, accessToken }) => {
   //   return (
   //     <div className="Book-list">
   //       {Books.map((item) => {
@@ -47,7 +51,7 @@ const App = () => {
   //           <Books
   //             key={item.id}
   //             Book={item}
-  //             onDelete={(id) => onDelete(id, token)} // ارسال توکن
+  //             onDelete={(id) => onDelete(id, accessToken)} // ارسال توکن
   //           />
   //         );
   //       })}
@@ -56,12 +60,12 @@ const App = () => {
   // };
   return (
     <div className="container">
-      {!token ? ( // اگر لاگین نشده، فرم لاگین را نشان بده
+      {!accessToken ? ( // اگر لاگین نشده، فرم لاگین را نشان بده
         <Login onLogin={handleLogin} />
       ) : (
         <>
           <AddBook onAdd={addBook} />
-          <BookList Books={Books} onDelete={deleteBook} token={token} />
+          <BookList Books={Books} onDelete={deleteBook} accessToken={accessToken} />
         </>
       )}
     </div>

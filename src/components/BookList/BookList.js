@@ -1,8 +1,9 @@
 import Book from "../Book/Book";
 import "./BookList.css";
 
-const BookList = ({ Books, onDelete, token }) => {
-console.log("Books" +Books)  
+const BookList = ({ Books, onDelete, accessToken }) => {
+  console.log("Books : " + JSON.stringify({ Books }));
+  console.log("onDelete : " + onDelete);
   // onDelete
   return (
     <div className="Book-list">
@@ -12,7 +13,7 @@ console.log("Books" +Books)
             key={item.id}
             Book={item}
             //  onDelete={onDelete}
-            onDelete={(id) => onDelete(id, token)}
+            onDelete={(id) => onDelete(id, accessToken)}
           />
         );
       })}

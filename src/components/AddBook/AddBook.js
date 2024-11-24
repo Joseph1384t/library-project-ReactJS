@@ -16,7 +16,7 @@ const AddBook = ({ onAdd }) => {
     setTitle("");
     setDescription("");
   };
-
+///////////اخر برنامه desciption : desc\\\\\\\\\\
   return (
     <div>
       <form className="add-Book-form" onSubmit={submitForm}>
@@ -25,7 +25,7 @@ const AddBook = ({ onAdd }) => {
             type="text"
             placeholder="Add Book"
             value={title}
-            onChange={(eTitle) => setTitle(eTitle.target.value)}
+            onChange={(e) => setTitle(e.target.value)}
           />
           <textarea
             id="commentTXT"
@@ -33,7 +33,7 @@ const AddBook = ({ onAdd }) => {
             rows="4"
             cols="50"
             value={description}
-            onChange={(inp) => setDescription(inp.target.value)}
+            onChange={(e) => setDescription(e.target.value)}
           ></textarea>
         </div>
         <button type="submit" className="form-btn">
