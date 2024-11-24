@@ -11,13 +11,13 @@
   display: flex;
   flex-direction: column;
   border-radius: 20px;
-  border: 2px solid #e0e0e0;
+  /* border: 2px solid #e0e0e0; */
   padding: 0.5rem 0.6rem;
 
   input {
     padding: 0.3rem;
     width: 100%;
-    background: transparent;
+    background: #212121;
     border: none;
     border-bottom: 2px solid #e0e0e0;
     font: inherit;
@@ -26,11 +26,12 @@
     border-radius: 10px;
   }
 
-  #commentTXT{
+  #commentTXT {
     padding: 0.3rem;
     margin: .6rem 0;
     background: #212121;
-    border: 2px solid #e0e0e0;
+    border: none;
+    border-bottom: 2px solid #e0e0e0;
     border-radius: 10px;
     font: inherit;
     color: #e0e0e0;
@@ -40,11 +41,22 @@
 
 .form-btn {
   margin: .7rem;
-  background: transparent;
-  border: none;
+  padding: 0.5rem 1rem;
   font: inherit;
   color: #e0e0e0;
-  border: 2px solid #cfcfcfd7;
-  padding: 0.5rem 1rem;
+  transition: all .3s ease;
+  background: #212121;
   border-radius: 20px;
+  border: none;
+  border-bottom: 2px solid #e0e0e0;
+  box-shadow: 0 0px 2px #e0e0e0;
+  cursor: pointer;
+}
+
+.form-btn:hover {
+  background: #e0e0e0;
+  border: none;
+  border-bottom: 2px solid #212121;
+  box-shadow: 0 0px 10px #212121;
+  color: #212121;
 }

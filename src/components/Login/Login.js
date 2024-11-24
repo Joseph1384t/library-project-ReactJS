@@ -4,18 +4,19 @@ import "./Login.css";
 const Login = ({ onLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  ///////
+  ///////LOGGG
   console.log("Username:", username);
   console.log("Password:", password);
   // localStorage.clear(); // همه داده‌ها را از localStorage پاک می‌کند
+  //  اگر access token موجود بود، آن را لاگ بگیرد
   const accessToken = localStorage.getItem("accessToken");
-  // اگر access token موجود بود، آن را لاگ بگیرد
   if (accessToken) {
     console.log("Access Token: ", accessToken);
   } else {
     console.log("No access token found");
   }
-  ///////
+  ///////////
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!username.trim() || !password.trim()) {

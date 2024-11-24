@@ -70,6 +70,7 @@ export const addBookToServer = async (title, description, accessToken) => {
     });
     console.log("Adding to to lib:   ", response.statusText);
     const data = await response.json();
+    console.log("data to to lllib:   ", JSON.stringify({ data}));
     if (!response.ok) throw new Error("Failed to add book");
     return data;
   } catch (error) {
