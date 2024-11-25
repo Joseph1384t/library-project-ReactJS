@@ -33,10 +33,11 @@ export const loginToServer = async (username, password) => {
 
     if (!response.ok) {
       console.error("Login failed:", response.statusText);
-      // throw new Error("Login failed");
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
+
     const data = await response.json();
-    // console.log("data :  " + JSON.stringify(data));
+    console.log("Login successful, received token:", data);
     return data; // فرض می‌کنیم سرور یک توکن JWT بازمی‌گرداند
   } catch (err) {
     console.error("Error logging in:", err);
@@ -44,7 +45,7 @@ export const loginToServer = async (username, password) => {
   }
 };
 
-export const fetchBooksFromServer = async (title, description, accessToken) => {
+export const fetchBooksFromServer = async (accessToken, title, description) => {
   const response = await fetch(`${API_URL}/getall`, {
     method: "POST",
     headers: {
@@ -53,6 +54,10 @@ export const fetchBooksFromServer = async (title, description, accessToken) => {
     },
     body: JSON.stringify({ title, description }),
   });
+  console.log(
+    "JSON.stringify({ title, description })",
+    JSON.stringify(response)
+  );
   if (!response.ok) throw new Error("Failed to fetch books");
   return response.json();
 };
@@ -68,26 +73,41 @@ export const addBookToServer = async (title, description, accessToken) => {
       },
       body: JSON.stringify({ title, description }),
     });
-    console.log("Adding to to lib:   ", response.statusText);
+
+    if (!response.ok) {
+      console.error("Failed to add book:", response.statusText);
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
     const data = await response.json();
-    console.log("data to to lllib:   ", JSON.stringify({ data}));
-    if (!response.ok) throw new Error("Failed to add book");
-    return data;
+    console.log("Book added successfully:", data.success[0]);
+    return data.success[0]; // فقط شیء کتاب برگردانده شود  } catch (error) {
   } catch (error) {
-    console.error(error);
+    console.error("Error in addBookToServer:", error);
+    throw error;
   }
 };
 
 // addBook: ارسال درخواست POST برای افزودن کتاب جدید.//-
 // Function to add a new book//+
-export const deleteBookFromServer = async (id, accessToken) => {
-  const response = await fetch(`${API_URL}/drop/${id}`, {
-    method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${accessToken}`, // ارسال توکن
-    },
-  });
-  if (!response.ok) throw new Error("Failed to delete book");
+export const deleteBookFromServer = async (title, accessToken) => {
+  try {
+    const response = await fetch(`${API_URL}/delete/${title}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${accessToken}`, // ارسال توکن
+      },
+    });
+    if (!response.ok) {
+      console.error("Failed to delete book:", response.statusText);
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    console.log("Book deleted successfully");
+  } catch (error) {
+    console.error("Error in deleteBookFromServer:", error);
+    throw error;
+  }
 };
+
 // deleteBook: ارسال درخواست DELETE برای حذف یک کتاب خاص.//-
 // Function to delete a book//+

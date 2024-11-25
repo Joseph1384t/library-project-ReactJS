@@ -1,20 +1,24 @@
 import Book from "../Book/Book";
+import { useContext } from "react";
+import { AuthContext } from "../../services/AuthContext";
 
 import "./BookList.css";
 
-const BookList = ({ Books, onDelete, accessToken }) => {
-  console.log("Books : " + JSON.stringify({ ...Books }));
-  // console.log("onDelete : " + onDelete);
-  // onDelete
+const BookList = ({ Books, onDelete }) => {
+  console.log("BookList : " + JSON.stringify({ ...Books }));
+  const { accessToken } = useContext(AuthContext);
+  // حالا به accessToken دسترسی دارید
+  console.log("Access Token in BookList:", accessToken);
+
   return (
     <div className="Book-list">
       {Books.map((item) => {
         return (
           <Book
-            key={item.id}
+            key={item._id}
             Book={item}
             //  onDelete={onDelete}
-            onDelete={(id) => onDelete(id, accessToken)}
+            onDelete={(id) => onDelete(id)}
           />
         );
       })}

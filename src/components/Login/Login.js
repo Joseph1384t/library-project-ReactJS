@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import { AuthContext } from "../../services/AuthContext";
 import { useState } from "react";
 import "./Login.css";
 
@@ -10,13 +12,23 @@ const Login = ({ onLogin }) => {
   // localStorage.clear(); // همه داده‌ها را از localStorage پاک می‌کند
   //  اگر access token موجود بود، آن را لاگ بگیرد
   const accessToken = localStorage.getItem("accessToken");
+  // const { handleLogin } = useContext(AuthContext);
+  // const handleSubmit = async (username, password) => {
+  //   try {
+  //     const token = await api.loginToServer(username, password); // دریافت توکن از سرور
+  //     handleLogin(token); // ذخیره توکن در Context
+  //   } catch (error) {
+  //     console.error("Login failed:", error);
+  //   }
+  // };
+
   if (accessToken) {
     console.log("Access Token: ", accessToken);
   } else {
     console.log("No access token found");
   }
   ///////////
-  
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!username.trim() || !password.trim()) {
@@ -24,11 +36,13 @@ const Login = ({ onLogin }) => {
       return;
     }
     try {
-      await onLogin(username, password);
+      const token = await onLogin(username, password);
+            console.log("Login successful, token:", token);
       setUsername("");
       setPassword("");
     } catch (error) {
-      alert("Login failed. Please check your credentials.");
+      console.error("Login failed:", error.message);
+      alert("Invalid username or password. Please try again.");
     }
   };
 
