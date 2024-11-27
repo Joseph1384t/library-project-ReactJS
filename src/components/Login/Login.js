@@ -1,5 +1,5 @@
-import { useContext } from "react";
-import { AuthContext } from "../../services/AuthContext";
+// import { useContext } from "react";
+// import { AuthContext } from "../../services/AuthContext";
 import { useState } from "react";
 import "./Login.css";
 
@@ -7,11 +7,12 @@ const Login = ({ onLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   ///////LOGGG
-  console.log("Username:", username);
-  console.log("Password:", password);
+  console.log("Username: ", username);
+  console.log("Password: ", password);
+
+  const accessToken = localStorage.getItem("accessToken");
   // localStorage.clear(); // همه داده‌ها را از localStorage پاک می‌کند
   //  اگر access token موجود بود، آن را لاگ بگیرد
-  const accessToken = localStorage.getItem("accessToken");
   // const { handleLogin } = useContext(AuthContext);
   // const handleSubmit = async (username, password) => {
   //   try {
@@ -23,7 +24,7 @@ const Login = ({ onLogin }) => {
   // };
 
   if (accessToken) {
-    console.log("Access Token: ", accessToken);
+    console.log("Access Token in Login: ", accessToken);
   } else {
     console.log("No access token found");
   }

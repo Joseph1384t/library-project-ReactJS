@@ -46,20 +46,27 @@ export const loginToServer = async (username, password) => {
 };
 
 export const fetchBooksFromServer = async (accessToken, title, description) => {
-  const response = await fetch(`${API_URL}/getall`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`, // ارسال توکن
-    },
-    body: JSON.stringify({ title, description }),
-  });
-  console.log(
-    "JSON.stringify({ title, description })",
-    JSON.stringify(response)
-  );
-  if (!response.ok) throw new Error("Failed to fetch books");
-  return response.json();
+  try {
+    const response = await fetch(`${API_URL}/getall`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`, // ارسال توکن
+      },
+      body: JSON.stringify({ title, description }),
+    });
+    console.log(
+      "JSON.stringify({ title, description })",
+      JSON.stringify(response)
+    );
+
+    const data = await response.json();
+    console.log("Books fetched successfully:", data.success[0]);
+    return data.success[0]; // فرض بر این است که لیست کتاب‌ها در `success[0]` بازگردانده می‌شود
+  } catch (error) {
+    console.error("Error in fetchBooksFromServer:", error);
+    throw error;
+  }
 };
 
 export const addBookToServer = async (title, description, accessToken) => {
