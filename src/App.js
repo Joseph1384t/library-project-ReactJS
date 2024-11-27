@@ -1,4 +1,3 @@
-//این فایل شامل کامپوننت اصلی React
 import { useState } from "react"; //وارد کردن هوک‌ها: از useState و useEffect برای مدیریت وضعیت و درخواست‌های API استفاده شده
 
 import * as api from "./api";
@@ -9,8 +8,10 @@ import AddBook from "./components/AddBook/AddBook"; // کامپوننت AddBook 
 import Login from "./components/Login/Login";
 
 const App = () => {
+  const [accessToken, setAccessToken] = useState(
+    localStorage.getItem("accessToken")
+  );
   const [Books, setBooks] = useState([]); // State management for the list of books//+
-  const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
   // const { accessToken } = useContext(AuthContext);
   // ذخیره توکن     // Fetching data from the API when the component mounts//+        // دریافت کتاب‌ها از سرور در هنگام بارگذاری کامپوننت
   // localStorage.setItem("accessToken")
@@ -18,15 +19,15 @@ const App = () => {
   const fetchBooks = async () => {
     try {
       const response = await api.fetchBooksFromServer(accessToken);
-      const Fbooks = response.success[0]; // دسترسی به لیست داخل آرایه
-      console.log("Fetched Books:", Fbooks);
+      const Fbooks = response; // دسترسی به لیست داخل آرایه
+      console.log("Fetched Books: issssss", Fbooks);
       setBooks(Fbooks);
-      console.log("Fetched Books Data:", Fbooks); // نمایش مستقیم در کنسول
+      console.log("Fetched Books Data issssss: ", Fbooks); // نمایش مستقیم در کنسول
     } catch (error) {
-      console.error("Error fetching books:", error.message);
-      alert(
-        "Failed to fetch books. Please check your connection or credentials."
-      );
+      console.error("Error fetchbooks ic:", error.message);
+      // alert(
+      //   "Failed to fetch books. Please check your connection or credentials."
+      // );
     }
   };
 
@@ -53,32 +54,23 @@ const App = () => {
       // setRefreshToken(response.refreshToken);
       // localStorage.setItem("refreshToken", response.refreshToken);
       setAccessToken(response.accessToken);
-      fetchBooks(); // بلافاصله بعد از لاگین
-      console.log("Books fetched after login:", Books); // نمایش کتاب‌ها در کنسول
-      const booksData = await api.fetchBooksFromServer(response.accessToken); // دریافت لیست کتاب‌ها
-      const booksF = booksData.success[0]; // دسترسی به لیست کتاب‌ها
-      setBooks(booksF); // ذخیره در State
+      // await fetchBooks(); // بلافاصله بعد از لاگین
+      // console.log("Books fetched Bfter llllllogin :  ", Books); // نمایش کتاب‌ها در کنسول
+      // const booksData = await api.fetchBooksFromServer(response.accessToken); // دریافت لیست کتاب‌ها
+      // const booksF = booksData.success; // دسترسی به لیست کتاب‌ها
+      // setBooks(booksF); // ذخیره در State
+      // console.log("Books fetched after llllllogin :  ", Books); // نمایش کتاب‌ها در کنسول
     } catch (error) {
       console.error("Login error:", error);
     }
-    return (
-      <>
-        <ChildComponent setAccessToken={setAccessToken} />
-        <p>Access Token: {accessToken}</p>
-      </>
-    );
   };
-  const ChildComponent = ({ setAccessToken }) => (
-    <button onClick={() => setAccessToken("sad")}>Logout</button>
-  );
-  // const handleLogout = () => {
-  //   localStorage.removeItem("accessToken");
-  //   // localStorage.removeItem("refreshToken");
-  //   setAccessToken(null);
-  //   // setRefreshToken(null);
-  // };
 
-  // تابع برای افزودن کتاب
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    setAccessToken(null);
+    // localStorage.removeItem("refreshToken");
+    // setRefreshToken(null);
+  };
 
   const addBook = async (title, description) => {
     try {
@@ -94,17 +86,17 @@ const App = () => {
     }
   };
 
-  const deleteBook = async (title) => {
+  const deleteBook = async (id) => {
     try {
       let token = accessToken;
       // if (!accessToken) {
       //   token = await refreshAccessToken(); // دریافت توکن جدید
       // }
-      await api.deleteBookFromServer(title, token);
-      setBooks(Books.filter((book) => book.title !== title));
+      await api.deleteBookFromServer(id, token);
+      setBooks(Books.filter((book) => book.id !== id));
     } catch (error) {
-      console.error("Failed to delete book:", error.message);
-      alert("Error deleting book. Please try again.");
+      console.error("Failed to ddelete book:", error.message);
+      alert("Error dddddeleting book. Please try again.");
     }
   };
 
@@ -115,15 +107,19 @@ const App = () => {
         <Login onLogin={handleLogin} />
       ) : (
         <>
-          <p>Current Token: {accessToken}</p>
-          <button className="btn-Logout" onClick={() => setAccessToken("null")}>
+          {/* <p>Current Token: {accessToken}</p> */}
+          <button className="btn-Logout" onClick={handleLogout}>
             Logout
           </button>
           <button className="btn-FetchBooks" onClick={fetchBooks}>
             Fetch Books
           </button>
           <AddBook onAdd={addBook} />
-          <BookList Books={Books} onDelete={deleteBook} />
+          <BookList
+            Books={Books}
+            onDelete={deleteBook}
+            accessToken={accessToken}
+          />
         </>
       )}
     </div>

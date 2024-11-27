@@ -37,13 +37,13 @@ const Login = ({ onLogin }) => {
       return;
     }
     try {
-      const token = await onLogin(username, password);
-            console.log("Login successful, token:", token);
+      await onLogin(username, password);
+      // console.log("Login successful, token:", token);
       setUsername("");
       setPassword("");
     } catch (error) {
       console.error("Login failed:", error.message);
-      alert("Invalid username or password. Please try again.");
+      // alert("Invalid username or password. Please try again.");
     }
   };
 

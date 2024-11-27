@@ -21,7 +21,6 @@ const API_URL = "https://127.0.0.1:8585";
 // };
 
 export const loginToServer = async (username, password) => {
-  console.log("loginToServer is runnig...");
   try {
     const response = await fetch(`${API_URL}/login`, {
       method: "POST",
@@ -37,7 +36,7 @@ export const loginToServer = async (username, password) => {
     }
 
     const data = await response.json();
-    console.log("Login successful, received token:", data);
+    // console.log("Login successful, received token:", data);
     return data; // فرض می‌کنیم سرور یک توکن JWT بازمی‌گرداند
   } catch (err) {
     console.error("Error logging in:", err);
@@ -55,16 +54,12 @@ export const fetchBooksFromServer = async (accessToken, title, description) => {
       },
       body: JSON.stringify({ title, description }),
     });
-    console.log(
-      "JSON.stringify({ title, description })",
-      JSON.stringify(response)
-    );
 
     const data = await response.json();
-    console.log("Books fetched successfully:", data.success[0]);
-    return data.success[0]; // فرض بر این است که لیست کتاب‌ها در `success[0]` بازگردانده می‌شود
+    console.log("Books fetched infetchBooksFromServer :", data.success);
+    return data.success; // فرض بر این است که لیست کتاب‌ها در `success` بازگردانده می‌شود
   } catch (error) {
-    console.error("Error in fetchBooksFromServer:", error);
+    console.error("Error in fetchBooksFrom   Server:", error);
     throw error;
   }
 };
@@ -87,8 +82,8 @@ export const addBookToServer = async (title, description, accessToken) => {
     }
 
     const data = await response.json();
-    console.log("Book added successfully:", data.success[0]);
-    return data.success[0]; // فقط شیء کتاب برگردانده شود  } catch (error) {
+    console.log("Book added successfully:", data.success);
+    return data.success; // فقط شیء کتاب برگردانده شود  } catch (error) {
   } catch (error) {
     console.error("Error in addBookToServer:", error);
     throw error;
@@ -97,9 +92,9 @@ export const addBookToServer = async (title, description, accessToken) => {
 
 // addBook: ارسال درخواست POST برای افزودن کتاب جدید.//-
 // Function to add a new book//+
-export const deleteBookFromServer = async (title, accessToken) => {
+export const deleteBookFromServer = async (id, accessToken) => {
   try {
-    const response = await fetch(`${API_URL}/delete/${title}`, {
+    const response = await fetch(`${API_URL}/delete/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${accessToken}`, // ارسال توکن

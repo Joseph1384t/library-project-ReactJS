@@ -16,7 +16,7 @@ const AddBook = ({ onAdd }) => {
     setTitle("");
     setDescription("");
   };
-///////////اخر برنامه desciption : desc\\\\\\\\\\
+///////////اخر برنامه description : desc\\\\\\\\\\
   return (
     <div>
       <form className="add-Book-form" onSubmit={submitForm}>
