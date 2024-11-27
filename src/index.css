@@ -16,28 +16,31 @@ body {
   -moz-osx-font-smoothing: grayscale; */
 }
 
-/* کلاس container: تنظیم عرض، حاشیه، و فاصله‌دهی برای مرکزیت محتوای صفحه. */
 .container {
   display: flex;
   flex-direction: column;
+  align-content: center;
+  flex-wrap: wrap;
   width: 85%;
   margin: 10% auto;
-  transition: all .2s ease;
+  transition: all 0.2s ease;
 }
-
+.btns {
+  display: flex;
+  width: 80%;
+}
 .btn-Logout {
-  margin: .7rem;
-  width: 10.3vh;
   /* margin-right: 0; */
   /* display: block; */
-  background: transparent;
-  border: none;
+  margin: 0.3vw;
+  width: 4.3vw;
+  padding: 0.5rem 0;
   font: inherit;
+  background: transparent;
   color: #ce1a1ad7;
   border: 2px solid #ce1a1ad7;
-  padding: 0.5rem 1rem;
   border-radius: 20px;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
   cursor: pointer;
 }
 
@@ -46,7 +49,24 @@ body {
   color: #e0e0e0;
   box-shadow: 0 0px 5px #ff0000;
 }
-
+.btn-FetchBooks {
+  margin: 0.3vw;
+  width: 8.3vw;
+  padding: 0.5rem 0;
+  font: inherit;
+  background: transparent;
+  color: #35ff9ad7;
+  border: 2px solid #35ffccd7;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.btn-FetchBooks:hover {
+  background: #35ff9ad7;
+  color: #e5fdf7d7;
+  border: 2px solid #00f9bad7;
+  box-shadow: 0 0px 5px #00fdbe;
+}
 /* code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
       monospace;

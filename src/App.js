@@ -108,12 +108,14 @@ const App = () => {
       ) : (
         <>
           {/* <p>Current Token: {accessToken}</p> */}
-          <button className="btn-Logout" onClick={handleLogout}>
-            Logout
-          </button>
-          <button className="btn-FetchBooks" onClick={fetchBooks}>
-            Fetch Books
-          </button>
+          <div className="btns">
+            <button className="btn-Logout" onClick={handleLogout}>
+               Logout
+            </button>
+            <button className="btn-FetchBooks" onClick={fetchBooks}>
+              Fetch Books
+            </button>
+          </div>
           <AddBook onAdd={addBook} />
           <BookList
             Books={Books}

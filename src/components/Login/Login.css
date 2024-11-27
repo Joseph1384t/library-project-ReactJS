@@ -7,9 +7,9 @@
 
 .login-form {
   background: #202020;
-  padding: 20px;
+  padding: 25px;
   border-radius: 15px;
-  box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0px 2px 5px 6px rgb(255 255 255 / 16%);
   width: 300px;
 }
 
@@ -26,14 +26,13 @@
   width: 100%;
   padding: 8px;
   margin-top: 5px;
-  border: 1px solid #ccc;
   outline: none;
   background: transparent;
   border: none;
-  border-bottom: 2px solid #e0e0e0;
+  border-bottom: 2.5px solid #e0e0e0da;
   font: inherit;
   color: #e0e0e0;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
 .login-btn {

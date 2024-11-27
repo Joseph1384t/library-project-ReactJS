@@ -22,6 +22,7 @@ const AddBook = ({ onAdd }) => {
       <form className="add-Book-form" onSubmit={submitForm}>
         <div className="form-control">
           <input
+            autoFocus
             type="text"
             placeholder="Add Book"
             value={title}
@@ -30,8 +31,8 @@ const AddBook = ({ onAdd }) => {
           <textarea
             id="commentTXT"
             placeholder="Add Comment"
-            rows="4"
-            cols="50"
+            // rows="4"
+            // cols="50"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           ></textarea>

@@ -10,13 +10,15 @@
 .form-control {
   display: flex;
   flex-direction: column;
+  align-items: center;
   border-radius: 20px;
   /* border: 2px solid #e0e0e0; */
   padding: 0.5rem 0.6rem;
+  width: 100%;
 
   input {
-    padding: 0.3rem;
-    width: 100%;
+    padding: 0.4rem;
+    width: 30%;
     background: #212121;
     border: none;
     border-bottom: 2px solid #e0e0e0;
@@ -27,8 +29,10 @@
   }
 
   #commentTXT {
-    padding: 0.3rem;
-    margin: .6rem 0;
+    padding: 0.4rem;
+    margin: 0.6rem 0 0 0;
+    width: 80%;
+    height: auto;
     background: #212121;
     border: none;
     border-bottom: 2px solid #e0e0e0;
@@ -40,11 +44,11 @@
 }
 
 .form-btn {
-  margin: .7rem;
+  margin-bottom: 1rem;
   padding: 0.5rem 1rem;
   font: inherit;
   color: #e0e0e0;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
   background: #212121;
   border-radius: 20px;
   border: none;

@@ -52,7 +52,9 @@ export const fetchBooksFromServer = async (accessToken, title, description) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`, // ارسال توکن
       },
+      /////////
       body: JSON.stringify({ title, description }),
+      ///
     });
 
     const data = await response.json();
@@ -65,7 +67,6 @@ export const fetchBooksFromServer = async (accessToken, title, description) => {
 };
 
 export const addBookToServer = async (title, description, accessToken) => {
-  console.log("Adding to...");
   try {
     const response = await fetch(`${API_URL}/save`, {
       method: "POST",
