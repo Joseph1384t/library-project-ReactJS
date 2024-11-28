@@ -5,7 +5,7 @@ import Book from "../Book/Book";
 import "./BookList.css";
 
 const BookList = ({ Books, onDelete, accessToken }) => {
-  console.log("BookList :................: " + JSON.stringify( Books ));
+  console.log("bb", Books);
   // const { accessToken } = useContext(AuthContext);
   // حالا به accessToken دسترسی دارید
   // console.log("Access Token in BookList:", accessToken);
@@ -14,25 +14,17 @@ const BookList = ({ Books, onDelete, accessToken }) => {
   }
 
   return (
-  //   <ul className="Book-list">
-  //   {Books.map((book) => (
-  //     <li key={book._id}>
-  //       {book.title} - {book.description} - onDelete={(id) => onDelete(id)}
-  //     </li>
-  //   ))}
-  // </ul>
     <div className="Book-list">
-      {Books.map((item) => {
-        return (
-          <Book
-            key={item.id}
-            Book={item}
-            // Book={item.title}
-            //  onDelete={onDelete}
-            onDelete={(id) => onDelete(id)}
-          />
-        );
-      })}
+      {Books &&
+        Books.map((item) => {
+          return (
+            <Book
+              key={item.id}
+              Book={item}
+              onDelete={(id) => onDelete(id, accessToken)}
+            />
+          );
+        })}
     </div>
   );
 };

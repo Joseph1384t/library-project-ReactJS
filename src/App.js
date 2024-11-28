@@ -1,4 +1,4 @@
-import { useState } from "react"; //وارد کردن هوک‌ها: از useState و useEffect برای مدیریت وضعیت و درخواست‌های API استفاده شده
+import { useEffect, useState } from "react"; //وارد کردن هوک‌ها: از useState و useEffect برای مدیریت وضعیت و درخواست‌های API استفاده شده
 
 import * as api from "./api";
 // import { useContext } from "react";
@@ -19,10 +19,8 @@ const App = () => {
   const fetchBooks = async () => {
     try {
       const response = await api.fetchBooksFromServer(accessToken);
-      const Fbooks = response; // دسترسی به لیست داخل آرایه
-      console.log("Fetched Books: issssss", Fbooks);
-      setBooks(Fbooks);
-      console.log("Fetched Books Data issssss: ", Fbooks); // نمایش مستقیم در کنسول
+      setBooks(response);
+      console.log("Fetched Books Data issssss: ", response); // نمایش مستقیم در کنسول
     } catch (error) {
       console.error("Error fetchbooks ic:", error.message);
       // alert(
@@ -78,27 +76,38 @@ const App = () => {
       // if (!accessToken) {
       //   token = await refreshAccessToken(); // دریافت توکن جدید
       // }
-      const newBook = await api.addBookToServer(title, description, token);
-      setBooks([...Books, newBook]);
+      // const { newBook } = await api.addBookToServer(title, description, token);
+      await api.addBookToServer(title, description, token);
+      // setBooks([...Books, newBook]);
+      const response = await api.fetchBooksFromServer(accessToken);
+      setBooks(response);
     } catch (error) {
-      console.error("Failed to add book:", error.message);
+      console.log("Failed to add book:", error.message);
       alert("Error adding book. Please try again.");
     }
   };
 
-  const deleteBook = async (id) => {
+  const deleteBook = async (id, accessToken) => {
     try {
       let token = accessToken;
       // if (!accessToken) {
       //   token = await refreshAccessToken(); // دریافت توکن جدید
       // }
-      await api.deleteBookFromServer(id, token);
+      console.log("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD>>>>>>>", token);
+      const title =`${id}`;
+      await api.deleteBookFromServer(title, token);
+      // console.log("Book DDDDDDDD>>>>>>>", response);
       setBooks(Books.filter((book) => book.id !== id));
+      console.log("Book delete<<<<<<<<< ", Books);
     } catch (error) {
-      console.error("Failed to ddelete book:", error.message);
-      alert("Error dddddeleting book. Please try again.");
+      console.error("Failed to deleteBookAAAA : ", error.message);
+      // alert("Error dddddeleting book. Please try again.");
     }
   };
+
+  // useEffect(()=>{
+  //   console.log( 'BBBBBB' ,  Books)
+  // } , [Books])
 
   return (
     // <AuthProvider>
@@ -110,7 +119,7 @@ const App = () => {
           {/* <p>Current Token: {accessToken}</p> */}
           <div className="btns">
             <button className="btn-Logout" onClick={handleLogout}>
-               Logout
+              Logout
             </button>
             <button className="btn-FetchBooks" onClick={fetchBooks}>
               Fetch Books

@@ -14,9 +14,13 @@ const AddBook = ({ onAdd }) => {
     }
     onAdd(title, description);
     setTitle("");
-    setDescription("");
+    setDescription(
+      `Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+       sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. `
+    );
   };
-///////////اخر برنامه description : desc\\\\\\\\\\
+  ///////////اخر برنامه description : desc\\\\\\\\\\
   return (
     <div>
       <form className="add-Book-form" onSubmit={submitForm}>
@@ -31,8 +35,7 @@ const AddBook = ({ onAdd }) => {
           <textarea
             id="commentTXT"
             placeholder="Add Comment"
-            // rows="4"
-            // cols="50"
+            rows="3"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           ></textarea>
