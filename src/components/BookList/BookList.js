@@ -5,11 +5,8 @@ import Book from "../Book/Book";
 import "./BookList.css";
 
 const BookList = ({ Books, onDelete, accessToken }) => {
-  console.log("bb", Books);
-  // const { accessToken } = useContext(AuthContext);
-  // حالا به accessToken دسترسی دارید
-  // console.log("Access Token in BookList:", accessToken);
   if (!Books || Books.length === 0) {
+    console.log("NNNNNNUUUUUUUUUUUULLLLLLLLLLLL.....: \n", Books);
     return <p> No books available.</p>;
   }
 
@@ -21,7 +18,7 @@ const BookList = ({ Books, onDelete, accessToken }) => {
             <Book
               key={item.id}
               Book={item}
-              onDelete={(id) => onDelete(id, accessToken)}
+              onDelete={() => onDelete(item.id, accessToken)}
             />
           );
         })}

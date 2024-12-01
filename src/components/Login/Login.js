@@ -22,7 +22,6 @@ const Login = ({ onLogin }) => {
   //     console.error("Login failed:", error);
   //   }
   // };
-
   if (accessToken) {
     console.log("Access Token in Login: ", accessToken);
   } else {
@@ -38,11 +37,10 @@ const Login = ({ onLogin }) => {
     }
     try {
       await onLogin(username, password);
-      // console.log("Login successful, token:", token);
       setUsername("");
       setPassword("");
     } catch (error) {
-      console.error("Login failed:", error.message);
+      console.log("Login failed:", error.message);
       // alert("Invalid username or password. Please try again.");
     }
   };
