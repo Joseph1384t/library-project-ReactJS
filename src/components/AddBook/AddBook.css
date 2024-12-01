@@ -2,65 +2,59 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding: 0rem 0;
-  margin: auto;
-  width: 100%;
-}
+  width: 30%;
+  padding: 25px;
+  margin: 20% auto;
+  gap: 10px;
+  background: #006769;
+  border-radius: 15px;
+  box-shadow: inset 0px 2px 5px 6px rgb(255 255 255 / 16%);
 
-.form-control {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-radius: 20px;
-  /* border: 2px solid #e0e0e0; */
-  padding: 0.5rem 0.6rem;
-  width: 100%;
+  h2 {
+    color: #E6FF94;
+  }
 
   input {
+    background: #16423C;
     padding: 0.4rem;
-    width: 30%;
-    background: #212121;
-    border: none;
-    border-bottom: 2px solid #e0e0e0;
+    width: 50%;
+    outline: none;
     font: inherit;
     color: #e0e0e0;
-    outline: none;
     border-radius: 10px;
+    border: none;
+    border-bottom: 2px solid #E6FF94;
   }
 
   #commentTXT {
+    background: #16423C;
     padding: 0.4rem;
-    margin: 0.6rem 0 0 0;
-    width: 80%;
-    height: auto;
-    background: #212121;
-    border: none;
-    border-bottom: 2px solid #e0e0e0;
-    border-radius: 10px;
+    width: 100%;
     font: inherit;
     color: #e0e0e0;
+    border: none;
+    border-radius: 10px;
+    border-bottom: 2px solid #E6FF94;
     outline: none;
   }
 }
 
 .form-btn {
-  margin-bottom: 1rem;
+  background: #16423C;
   padding: 0.5rem 1rem;
   font: inherit;
-  color: #e0e0e0;
-  transition: all 0.3s ease;
-  background: #212121;
+  color: #E6FF94;
+  cursor: pointer;
   border-radius: 20px;
   border: none;
-  border-bottom: 2px solid #e0e0e0;
-  box-shadow: 0 0px 2px #e0e0e0;
-  cursor: pointer;
+  border-bottom: 2px solid #E6FF94;
+  transition: all 0.3s ease;
 }
 
 .form-btn:hover {
-  background: #e0e0e0;
+  background: #9DDE8B;
   border: none;
-  border-bottom: 2px solid #212121;
-  box-shadow: 0 0px 10px #212121;
+  border-bottom: 2px solid #40A578;
+  box-shadow: 0 0px 10px #E6FF94;
   color: #212121;
 }

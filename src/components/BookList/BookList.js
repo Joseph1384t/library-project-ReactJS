@@ -4,10 +4,14 @@ import Book from "../Book/Book";
 
 import "./BookList.css";
 
-const BookList = ({ Books, onDelete, accessToken }) => {
+const BookList = ({ Books, onDelete }) => {
   if (!Books || Books.length === 0) {
     console.log("NNNNNNUUUUUUUUUUUULLLLLLLLLLLL.....: \n", Books);
-    return <p> No books available.</p>;
+    return (
+      <div className="Book-list">
+        <h1> No books available. </h1>
+      </div>
+    );
   }
 
   return (
@@ -18,7 +22,7 @@ const BookList = ({ Books, onDelete, accessToken }) => {
             <Book
               key={item.id}
               Book={item}
-              onDelete={() => onDelete(item.id, accessToken)}
+              onDelete={() => onDelete(item.id)}
             />
           );
         })}

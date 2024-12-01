@@ -1,6 +1,25 @@
 .Book-list {
-    display: flex;
-    flex-wrap: wrap ;
-    justify-content: space-between;
-    gap: 10px;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
+
+h1 {
+  color: #6b1d1d;
+  padding: 10px;
+  border: 2px solid #ff0000;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  cursor: no-drop;
+}
+h1:hover {
+  color: #6b1d1d;
+  padding: 10px;
+  border: 2px solid #ff0000;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  cursor: no-drop;
+
+}
+}  

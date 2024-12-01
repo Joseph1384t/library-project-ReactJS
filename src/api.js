@@ -44,13 +44,13 @@ export const loginToServer = async (username, password) => {
   }
 };
 
-export const fetchBooksFromServer = async (accessToken) => {
+export const fetchBooksFromServer = async (token) => {
   try {
     const response = await fetch(`${API_URL}/getall`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`, // ارسال توکن
+        Authorization: `Bearer ${token}`, // ارسال توکن
       },
     });
 
@@ -63,13 +63,13 @@ export const fetchBooksFromServer = async (accessToken) => {
   }
 };
 
-export const addBookToServer = async (title, description, accessToken) => {
+export const addBookToServer = async (title, description, token) => {
   try {
     const response = await fetch(`${API_URL}/save`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`, // ارسال توکن
+        Authorization: `Bearer ${token}`, // ارسال توکن
       },
       body: JSON.stringify({ title, description }),
     });
@@ -96,18 +96,19 @@ export const addBookToServer = async (title, description, accessToken) => {
 
 // addBook: ارسال درخواست POST برای افزودن کتاب جدید.//-
 // Function to add a new book//+
-export const deleteBookFromServer = async (title, accessToken) => {
+export const deleteBookFromServer = async (title, token) => {
   try {
     const response = await fetch(`${API_URL}/delete`, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${accessToken}`, // ارسال توکن
+        'Content-Type': 'application/json' ,
+        'Authorization': `Bearer ${token}`, // ارسال توکن
       },
       // body: JSON.stringify({ "title": `${id}` }),
       body: JSON.stringify({ title }),
     });
     console.log("Book delete >>>>>>>", response);
-    console.log("deleteBookFromServer>>>>>>>", accessToken);
+    console.log("deleteBookFromServer>>>>>>>", token);
     if (!response.ok) {
       console.log("Failed to deleteBookFromServer:", response.statusText);
       throw new Error(`HTTTTP error! status: ${response.status}`);

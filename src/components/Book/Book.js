@@ -2,18 +2,17 @@ import React, { memo } from "react";
 
 import "./Book.css";
 
-const Book = memo(({ Book, onDelete }) => {
+const Book = memo(({ Book, onDelete}) => {
   return (
     <div className="Book">
-      <h2>
+      <h3>
         {Book.title}
-        {/* {Book.id} */}
-      </h2>
+      </h3>
       <div className="description">
-        <h4>Description : </h4> <h5>{Book.description}</h5>
+        <h4>Description :  {Book.description}</h4>
       </div>
       <div>
-        <button className="btn" onClick={() => onDelete(Book.id)}>
+        <button className="btn-Delete" onClick={() => onDelete(Book.id)}>
           Delete
         </button>
       </div>

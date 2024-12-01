@@ -25,48 +25,80 @@ body {
   margin: 10% auto;
   transition: all 0.2s ease;
 }
+
 .btns {
   display: flex;
-  width: 80%;
+  justify-content: center;
+  width: 100%;
 }
+
 .btn-Logout {
-  /* margin-right: 0; */
-  /* display: block; */
   margin: 0.3vw;
-  width: 4.3vw;
+  width: 80%;
   padding: 0.5rem 0;
   font: inherit;
-  background: transparent;
-  color: #ce1a1ad7;
-  border: 2px solid #ce1a1ad7;
-  border-radius: 20px;
+  background: #6b1d1d;
+  color: #ffffffd7;
+  border: none;
+  border-bottom: 2px solid #ffffffd7;
+  border-radius: 12px;
   transition: all 0.3s ease;
   cursor: pointer;
 }
 
 .btn-Logout:hover {
-  background: #ce1a1ad7;
-  color: #e0e0e0;
+  background: #ff0000;
+  font: inherit;
+  color: #ffffffd7;
   box-shadow: 0 0px 5px #ff0000;
+  border-bottom: 2px solid #ffffffd7;
 }
-.btn-FetchBooks {
+
+.btn-Booklist,
+.btn-AddBook {
   margin: 0.3vw;
   width: 8.3vw;
   padding: 0.5rem 0;
   font: inherit;
-  background: transparent;
-  color: #35ff9ad7;
-  border: 2px solid #35ffccd7;
-  border-radius: 20px;
+  background: #40A578;
+  color: #E6FF94;
+  border: none;
+  border-bottom: 2px solid #e5fdf7d7;
+  border-radius: 12px;
   transition: all 0.3s ease;
   cursor: pointer;
 }
-.btn-FetchBooks:hover {
-  background: #35ff9ad7;
-  color: #e5fdf7d7;
-  border: 2px solid #00f9bad7;
-  box-shadow: 0 0px 5px #00fdbe;
+
+.btn-Booklist:hover,
+.btn-AddBook:hover {
+  background: #9DDE8B;
+  color: #E6FF94;
+  box-shadow: 0 0px 5px #e5fdf7d7;
 }
+
+@media only screen and (min-width : 500px) {
+  .btn-Logout {
+    width: 20.3vw;
+  }
+
+  .btns {
+    justify-content: left;
+  }
+}
+
+
+@media only screen and (min-width : 700px) {
+  .btn-Logout {
+    width: 10.3vw;
+  }
+}
+
+@media only screen and (min-width : 1500px) {
+  .btn-Logout {
+    width: 5vw;
+  }
+}
+
 /* code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
       monospace;

@@ -15,6 +15,31 @@
     color: #dfdede;
     font-size: 1rem;
   }
+
+
+}
+
+.btn-Delete {
+  padding: 0.3rem 1rem;
+  background: #af9d9d;
+  font: inherit;
+  font-size: 0.6rem;
+  /* background: #6e0000d7; */
+  color: #ffffffd7;
+  border: none;
+  border-bottom: 2px solid #ffffffd7;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+}
+
+.btn-Delete:hover {
+  background: #d11a2a;
+  font: inherit;
+  color: #ffffffd7;
+  box-shadow: 0 0px 5px #d11a2a;
+  border-bottom: 2px solid #ffffffd7;
 }
 
 @media only screen and (min-width : 768px) {
@@ -34,14 +59,4 @@
   .Book {
     width: calc(25% - 10px);
   }
-}
-
-.btn {
-  padding: 0.3rem 1rem;
-  background: #b3b2b2;
-  border: none;
-  border-radius: 0.3rem;
-  font: inherit;
-  font-size: 0.9rem;
-  color: #212121;
 }

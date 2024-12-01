@@ -13,7 +13,7 @@ const AddBook = ({ onAdd }) => {
       return;
     }
     onAdd(title, description);
-    setTitle("");
+    setTitle("Book " + title);
     setDescription(
       `Lorem ipsum dolor sit amet, consectetur adipiscing elit,
        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -24,22 +24,21 @@ const AddBook = ({ onAdd }) => {
   return (
     <div>
       <form className="add-Book-form" onSubmit={submitForm}>
-        <div className="form-control">
-          <input
-            autoFocus
-            type="text"
-            placeholder="Add Book"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <textarea
-            id="commentTXT"
-            placeholder="Add Comment"
-            rows="3"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          ></textarea>
-        </div>
+      <h2>Add Books</h2>
+        <input
+          autoFocus
+          type="text"
+          placeholder="Add Book"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <textarea
+          id="commentTXT"
+          placeholder="Add Comment"
+          rows="3"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        ></textarea>
         <button type="submit" className="form-btn">
           Add to Library
         </button>

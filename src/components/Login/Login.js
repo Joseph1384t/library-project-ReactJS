@@ -7,8 +7,8 @@ const Login = ({ onLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   ///////LOGGG
-  console.log("Username: ", username);
-  console.log("Password: ", password);
+  // console.log("Username: ", username);
+  // console.log("Password: ", password);
 
   const accessToken = localStorage.getItem("accessToken");
   // localStorage.clear(); // همه داده‌ها را از localStorage پاک می‌کند

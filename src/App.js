@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react"; //وارد کردن هوک‌ها: از useState و useEffect برای مدیریت وضعیت و درخواست‌های API استفاده شده
+import { BrowserRouter as Router } from "react-router-dom";
 
 import * as api from "./api";
 // import { useContext } from "react";
 // import { AuthProvider } from "./services/AuthContext"; // ایمپورت AuthProvider
-import BookList from "./components/BookList/BookList"; // کامپوننت BookList برای نمایش لیست کتاب‌ها و حذف آن‌ها.//////Books: یک state برای ذخیره لیست کتاب‌ها.
-import AddBook from "./components/AddBook/AddBook"; // کامپوننت AddBook برای افزودن کتاب      //deleteBook: ارسال درخواست DELETE برای حذف یک کتاب خاص.
-import Login from "./components/Login/Login";
+import AppRoutes from "./services/Routes";
 
 const App = () => {
   const [accessToken, setAccessToken] = useState(
@@ -15,20 +14,6 @@ const App = () => {
   // const { accessToken } = useContext(AuthContext);
   // ذخیره توکن     // Fetching data from the API when the component mounts//+        // دریافت کتاب‌ها از سرور در هنگام بارگذاری کامپوننت
   // localStorage.setItem("accessToken")
-
-  const fetchBooks = async (accessToken) => {
-    try {
-      // const response = await api.fetchBooksFromServer(localStorage.getItem("accessToken", accessToken));
-      const response = await api.fetchBooksFromServer(accessToken);
-      setBooks(response);
-      console.log("Fetched Books Data issssss: ", response); // نمایش مستقیم در کنسول
-    } catch (error) {
-      console.log("Error fetchbooks ic:", error.message);
-      // alert(
-      //   "Failed to fetch books. Please check your connection or credentials."
-      // );
-    }
-  };
 
   useEffect(() => {
     if (accessToken) {
@@ -70,6 +55,20 @@ const App = () => {
     // localStorage.removeItem("refreshToken");
     // setRefreshToken(null);
   };
+  
+  const fetchBooks = async (accessToken) => {
+    try {
+      // const response = await api.fetchBooksFromServer(localStorage.getItem("accessToken", accessToken));
+      const response = await api.fetchBooksFromServer(accessToken);
+      setBooks(response);
+      console.log("Fetched Books Data issssss: ", response); // نمایش مستقیم در کنسول
+    } catch (error) {
+      console.log("Error fetchbooks ic:", error.message);
+      // alert(
+      //   "Failed to fetch books. Please check your connection or credentials."
+      // );
+    }
+  };
 
   const addBook = async (title, description) => {
     try {
@@ -90,51 +89,63 @@ const App = () => {
 
   const deleteBook = async (id, accessToken) => {
     try {
-      let token = accessToken;
       // if (!accessToken) {
       //   token = await refreshAccessToken(); // دریافت توکن جدید
       // }
       console.log(
         "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD>>>>>>>",
-        token
+        accessToken
       );
       const title = `${id}`;
-      await api.deleteBookFromServer(title, token);
+      console.log(
+        "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDTITITTITLTe  >>>>>>>",
+        title
+      );
+      await api.deleteBookFromServer(title, accessToken);
       // console.log("Book DDDDDDDD>>>>>>>", response);
       setBooks(Books.filter((book) => book.id !== id));
       console.log("Book delete<<<<<<<<< ", Books);
     } catch (error) {
-      console.error("Failed to deleteBookAAAA : ", error.message);
+      console.log("Failed to deleteBookAAAA : ", error.message);
       // alert("Error dddddeleting book. Please try again.");
     }
   };
 
+  // return (
+  //   // <AuthProvider>
+  //   <div className="container">
+  //     {!accessToken ? ( // اگر لاگین نشده، فرم لاگین را نشان بده
+  //       <Login onLogin={handleLogin} />
+  //     ) : (
+  //       <>
+  //         {/* <p>Current Token: {accessToken}</p> */}
+  // <div className="btns">
+  //   <button className="btn-Logout" onClick={handleLogout}>
+  //     Logout
+  //   </button>
+  // </div>
+  //         <AddBook onAdd={addBook} />
+  //         <BookList
+  //           Books={Books}
+  //           onDelete={deleteBook}
+  //           accessToken={accessToken}
+  //         />
+  //       </>
+  //     )}
+  //   </div>
+  //   // </AuthProvider>
+  // );
   return (
-    // <AuthProvider>
-    <div className="container">
-      {!accessToken ? ( // اگر لاگین نشده، فرم لاگین را نشان بده
-        <Login onLogin={handleLogin} />
-      ) : (
-        <>
-          {/* <p>Current Token: {accessToken}</p> */}
-          <div className="btns">
-            <button className="btn-Logout" onClick={handleLogout}>
-              Logout
-            </button>
-            {/* <button className="btn-FetchBooks" onClick={() => fetchBooks(accessToken)}>
-              Fetch Books
-            </button> */}
-          </div>
-          <AddBook onAdd={addBook} />
-          <BookList
-            Books={Books}
-            onDelete={deleteBook}
-            accessToken={accessToken}
-          />
-        </>
-      )}
-    </div>
-    // </AuthProvider>
+    <Router>
+      <AppRoutes
+        addBook={addBook}
+        deleteBook={deleteBook}
+        handleLogin={handleLogin}
+        handleLogout={handleLogout}
+        accessToken={accessToken}
+        Books={Books}
+      />
+    </Router>
   );
 };
 
