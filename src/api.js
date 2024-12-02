@@ -56,7 +56,11 @@ export const fetchBooksFromServer = async (token) => {
 
     console.log("Books fetched infetchBooksFromServer>>>>> :", response);
     const data = await response.json();
-    return data.success?.[0]; // فرض بر این است که لیست کتاب‌ها در `success` بازگردانده می‌شود
+    // return data.success?.[0]; // فرض بر این است که لیست کتاب‌ها در `success` بازگردانده می‌شود
+    return {
+      responseStatus: data.success,
+      Book_Array: data.output?.[0],
+    };
   } catch (error) {
     console.log("Error in fetchBooksFrom   Server:", error);
     throw error;
@@ -80,13 +84,17 @@ export const addBookToServer = async (title, description, token) => {
     }
 
     const data = await response.json();
-    console.log("Book added successfully:", data.success);
+    console.log(
+      "Book added successfully:",
+      data,
+      "\n",
+      response.ok,
+      "\n",
+      response.status
+    );
+
     return {
-      responseServer: data.success,
-      newBook: {
-        title,
-        description,
-      },
+      responseStatus: data.success,
     }; // فقط شیء کتاب برگردانده شود  } catch (error) {
   } catch (error) {
     console.log("Error in addBookToServer:", error);
@@ -94,21 +102,16 @@ export const addBookToServer = async (title, description, token) => {
   }
 };
 
-// addBook: ارسال درخواست POST برای افزودن کتاب جدید.//-
-// Function to add a new book//+
-export const deleteBookFromServer = async (title, token) => {
+export const deleteBookFromServer = async (id, token) => {
   try {
     const response = await fetch(`${API_URL}/delete`, {
       method: "POST",
       headers: {
-        'Content-Type': 'application/json' ,
-        'Authorization': `Bearer ${token}`, // ارسال توکن
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // ارسال توکن
       },
-      // body: JSON.stringify({ "title": `${id}` }),
-      body: JSON.stringify({ title }),
+      body: JSON.stringify({ id }),
     });
-    console.log("Book delete >>>>>>>", response);
-    console.log("deleteBookFromServer>>>>>>>", token);
     if (!response.ok) {
       console.log("Failed to deleteBookFromServer:", response.statusText);
       throw new Error(`HTTTTP error! status: ${response.status}`);
@@ -119,6 +122,3 @@ export const deleteBookFromServer = async (title, token) => {
     throw error;
   }
 };
-
-// deleteBook: ارسال درخواست DELETE برای حذف یک کتاب خاص.//-
-// Function to delete a book//+

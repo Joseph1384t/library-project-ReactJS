@@ -10,10 +10,6 @@ const App = () => {
   const [accessToken, setAccessToken] = useState(
     localStorage.getItem("accessToken") || ""
   );
-  const [Books, setBooks] = useState([]); // State management for the list of books//+
-  // const { accessToken } = useContext(AuthContext);
-  // ذخیره توکن     // Fetching data from the API when the component mounts//+        // دریافت کتاب‌ها از سرور در هنگام بارگذاری کامپوننت
-  // localStorage.setItem("accessToken")
 
   useEffect(() => {
     if (accessToken) {
@@ -21,6 +17,10 @@ const App = () => {
     }
   }, [accessToken]); // فقط یک بار و زمانی که accessToken تغییر کند
 
+  const [Books, setBooks] = useState([]); // State management for the list of books//+
+  // const { accessToken } = useContext(AuthContext);
+  // ذخیره توکن     // Fetching data from the API when the component mounts//+        // دریافت کتاب‌ها از سرور در هنگام بارگذاری کامپوننت
+  // localStorage.setItem("accessToken")
   // const [refreshToken, setRefreshToken] = useState(
   //   localStorage.getItem("refreshToken")
   // );
@@ -55,12 +55,12 @@ const App = () => {
     // localStorage.removeItem("refreshToken");
     // setRefreshToken(null);
   };
-  
+
   const fetchBooks = async (accessToken) => {
     try {
       // const response = await api.fetchBooksFromServer(localStorage.getItem("accessToken", accessToken));
       const response = await api.fetchBooksFromServer(accessToken);
-      setBooks(response);
+      setBooks(response.Book_Array);
       console.log("Fetched Books Data issssss: ", response); // نمایش مستقیم در کنسول
     } catch (error) {
       console.log("Error fetchbooks ic:", error.message);
@@ -78,9 +78,7 @@ const App = () => {
       // }
       // const { newBook } = await api.addBookToServer(title, description, token);
       await api.addBookToServer(title, description, token);
-      // setBooks([...Books, newBook]);
-      const response = await api.fetchBooksFromServer(accessToken);
-      setBooks(response);
+      fetchBooks(accessToken);
     } catch (error) {
       console.log("Failed to add book:", error.message);
       alert("Error adding book. Please try again.");
@@ -92,26 +90,14 @@ const App = () => {
       // if (!accessToken) {
       //   token = await refreshAccessToken(); // دریافت توکن جدید
       // }
-      console.log(
-        "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD>>>>>>>",
-        accessToken
-      );
-      const title = `${id}`;
-      console.log(
-        "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDTITITTITLTe  >>>>>>>",
-        title
-      );
-      await api.deleteBookFromServer(title, accessToken);
-      // console.log("Book DDDDDDDD>>>>>>>", response);
+      await api.deleteBookFromServer(id, accessToken);
       setBooks(Books.filter((book) => book.id !== id));
-      console.log("Book delete<<<<<<<<< ", Books);
     } catch (error) {
       console.log("Failed to deleteBookAAAA : ", error.message);
-      // alert("Error dddddeleting book. Please try again.");
+      alert("Error dddddeleting book. Please try again.");
     }
   };
 
-  // return (
   //   // <AuthProvider>
   //   <div className="container">
   //     {!accessToken ? ( // اگر لاگین نشده، فرم لاگین را نشان بده

@@ -24,8 +24,10 @@ const Login = ({ onLogin }) => {
   // };
   if (accessToken) {
     console.log("Access Token in Login: ", accessToken);
-  } else {
+  } else if (!accessToken){
     console.log("No access token found");
+  }else{
+    console.log("WTF? : ", accessToken);
   }
   ///////////GGGGGOL
 
@@ -51,6 +53,7 @@ const Login = ({ onLogin }) => {
         <h2>Login</h2>
         <div className="login-form-control">
           <input
+            autoFocus
             type="text"
             placeholder="Username"
             value={username}
