@@ -53,7 +53,6 @@ export const fetchBooksFromServer = async (token) => {
         Authorization: `Bearer ${token}`, // ارسال توکن
       },
     });
-
     console.log("Books fetched infetchBooksFromServer>>>>> :", response);
     const data = await response.json();
     // return data.success?.[0]; // فرض بر این است که لیست کتاب‌ها در `success` بازگردانده می‌شود
@@ -82,7 +81,6 @@ export const addBookToServer = async (title, description, token) => {
       console.error("Failed to add book:", response.statusText);
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-
     const data = await response.json();
     console.log(
       "Book added successfully:",
