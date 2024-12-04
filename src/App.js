@@ -10,14 +10,17 @@ const App = () => {
   const [accessToken, setAccessToken] = useState(
     localStorage.getItem("accessToken") || ""
   );
+  const [loading, setLoading] = useState(false); // وضعیت بارگذاری
+  const [Books, setBooks] = useState([]); // State management for the list of books//+
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
     if (accessToken) {
-      fetchBooks(accessToken);
+      fetchBooks(currentPage);
     }
-  }, [accessToken]); // فقط یک بار و زمانی که accessToken تغییر کند
+  }, [accessToken, currentPage]);
 
-  const [Books, setBooks] = useState([]); // State management for the list of books//+
   // const { accessToken } = useContext(AuthContext);
   // ذخیره توکن     // Fetching data from the API when the component mounts//+        // دریافت کتاب‌ها از سرور در هنگام بارگذاری کامپوننت
   // localStorage.setItem("accessToken")
@@ -56,21 +59,29 @@ const App = () => {
     // setRefreshToken(null);
   };
 
-  const fetchBooks = async (accessToken) => {
+  const handlePageChange = (newPage) => {
+    if (newPage >= 0 && newPage < totalPages) {
+      setCurrentPage(newPage); // تغییر صفحه
+    }
+  };
+
+  const fetchBooks = async (pageNumber) => {
     try {
-      // const response = await api.fetchBooksFromServer(localStorage.getItem("accessToken", accessToken));
-      const response = await api.fetchBooksFromServer(accessToken);
+      setLoading(true);
+      const response = await api.fetchBooksFromServer(pageNumber);
       setBooks(response.Book_Array);
-      console.log("Fetched Books Data issssss: ", response); // نمایش مستقیم در کنسول
+      setTotalPages(response.totalPages);
+      setLoading(false);
     } catch (error) {
-      console.log("Error fetchbooks ic:", error.message);
+      console.error("Error fetching books:", error);
+      setLoading(false);
       // alert(
       //   "Failed to fetch books. Please check your connection or credentials."
       // );
     }
   };
 
-  const addBook = async (title, description) => {
+  const addBook = async (title, description, pageNumber) => {
     try {
       let token = accessToken;
       // if (!accessToken) {
@@ -78,19 +89,16 @@ const App = () => {
       // }
       // const { newBook } = await api.addBookToServer(title, description, token);
       await api.addBookToServer(title, description, token);
-      fetchBooks(accessToken);
+      await fetchBooks(pageNumber);
     } catch (error) {
       console.log("Failed to add book:", error.message);
       alert("Error adding book. Please try again.");
     }
   };
 
-  const deleteBook = async (id, accessToken) => {
+  const deleteBook = async (id) => {
     try {
-      // if (!accessToken) {
-      //   token = await refreshAccessToken(); // دریافت توکن جدید
-      // }
-      await api.deleteBookFromServer(id, accessToken);
+      await api.deleteBookFromServer(id);
       setBooks(Books.filter((book) => book.id !== id));
     } catch (error) {
       console.log("Failed to deleteBookAAAA : ", error.message);
@@ -130,6 +138,10 @@ const App = () => {
         handleLogout={handleLogout}
         accessToken={accessToken}
         Books={Books}
+        loading={loading}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
       />
     </Router>
   );

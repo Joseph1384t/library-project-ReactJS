@@ -5,21 +5,42 @@
   justify-content: center;
   gap: 10px;
 
-h1 {
-  color: #6b1d1d;
-  padding: 10px;
-  border: 2px solid #ff0000;
-  border-radius: 12px;
-  transition: all 0.3s ease;
-  cursor: no-drop;
-}
-h1:hover {
-  color: #6b1d1d;
-  padding: 10px;
-  border: 2px solid #ff0000;
-  border-radius: 12px;
-  transition: all 0.3s ease;
-  cursor: no-drop;
+  h1 {
+    color: #6b1d1d;
+    padding: 10px;
+    border: 2px solid #ff0000;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    cursor: no-drop;
+  }
 
+  h1:hover {
+    color: #6b1d1d;
+    padding: 10px;
+    border: 2px solid #ff0000;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    cursor: no-drop;
+
+  }
 }
-}  
+
+.pagination {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.pagination button {
+  padding: 10px;
+  margin: 5px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

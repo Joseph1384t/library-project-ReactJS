@@ -44,35 +44,41 @@ export const loginToServer = async (username, password) => {
   }
 };
 
-export const fetchBooksFromServer = async (token) => {
+export const fetchBooksFromServer = async (pageNumber) => {
   try {
     const response = await fetch(`${API_URL}/getall`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // ارسال توکن
+        Authorization: "Bearer " + localStorage.getItem("accessToken"), // ارسال توکن
       },
+      body: JSON.stringify({
+        page: pageNumber, // شماره صفحه
+        limit: 12, // تعداد کتاب‌ها در هر صفحه
+      }),
     });
-    console.log("Books fetched infetchBooksFromServer>>>>> :", response);
-    const data = await response.json();
-    // return data.success?.[0]; // فرض بر این است که لیست کتاب‌ها در `success` بازگردانده می‌شود
-    return {
-      responseStatus: data.success,
-      Book_Array: data.output?.[0],
-    };
+    if (response.ok) {
+      console.log("Books fetched infetchBooksFromServer>>>>> :", response);
+      const data = await response.json();
+      return {
+        responseStatus: data.success,
+        Book_Array: data.output?.[0],
+        totalPages: Math.ceil(data.output?.[0].length / 12), // تعداد صفحات
+      };
+    }
   } catch (error) {
     console.log("Error in fetchBooksFrom   Server:", error);
     throw error;
   }
 };
 
-export const addBookToServer = async (title, description, token) => {
+export const addBookToServer = async (title, description) => {
   try {
     const response = await fetch(`${API_URL}/save`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // ارسال توکن
+        Authorization: "Bearer " + localStorage.getItem("accessToken"), // ارسال توکن
       },
       body: JSON.stringify({ title, description }),
     });
@@ -100,13 +106,13 @@ export const addBookToServer = async (title, description, token) => {
   }
 };
 
-export const deleteBookFromServer = async (id, token) => {
+export const deleteBookFromServer = async (id) => {
   try {
     const response = await fetch(`${API_URL}/delete`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // ارسال توکن
+        Authorization: "Bearer " + localStorage.getItem("accessToken"), // ارسال توکن
       },
       body: JSON.stringify({ id }),
     });

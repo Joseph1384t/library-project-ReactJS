@@ -10,6 +10,10 @@ const AppRoutes = ({
   addBook,
   deleteBook,
   Books,
+  loading,
+  currentPage,
+  totalPages,
+  onPageChange
 }) => {
   const navigate = useNavigate();
   return (
@@ -65,8 +69,11 @@ const AppRoutes = ({
               </div>
               <BookList
                 Books={Books}
-                onDelete={(id) => deleteBook(id, accessToken)}
+                onDelete={(id) => deleteBook(id)}
                 accessToken={accessToken}
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={onPageChange}
               />
             </>
           ) : (

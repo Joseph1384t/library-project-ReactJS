@@ -4,16 +4,13 @@ import Book from "../Book/Book";
 
 import "./BookList.css";
 
-const BookList = ({ Books, onDelete }) => {
-  // if (!Books || Books.length === 0) {
-  //   console.log("NNNNNNUUUUUUUUUUUULLLLLLLLLLLL.....: \n", Books);
-  //   return (
-  //     <div className="Book-list">
-  //       <h1> No books available. </h1>
-  //     </div>
-  //   );
-  // }
-  // (!Books || Books.length === 0) ||
+const BookList = ({
+  Books,
+  onDelete,
+  currentPage,
+  totalPages,
+  onPageChange,
+}) => {
   return (
     <div className="Book-list">
       {Books && Books.length > 0 ? (
@@ -23,6 +20,24 @@ const BookList = ({ Books, onDelete }) => {
       ) : (
         <h1> No books available. </h1>
       )}
+
+      <div className="pagination">
+        <button
+          onClick={() => onPageChange(currentPage - 1)}
+          disabled={currentPage <= 0}
+        >
+          Previous
+        </button>
+        <span>
+          Page {currentPage + 1} of {totalPages}
+        </span>
+        <button
+          onClick={() => onPageChange(currentPage + 1)}
+          disabled={currentPage >= totalPages - 1}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };
