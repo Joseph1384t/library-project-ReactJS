@@ -1,4 +1,4 @@
-const API_URL = "https://127.0.0.1:8585";
+const API_URL = "http://127.0.0.1:8585";
 
 // const refreshAccessToken = async () => {
 //   try {
@@ -31,8 +31,13 @@ export const loginToServer = async (username, password) => {
     });
 
     if (!response.ok) {
-      console.error("Login failed:", response.statusText);
-      throw new Error(`HTTP error! status: ${response.status}`);
+      if (!response.ok) {
+        const errorMessage =
+          response.status === 401
+            ? "Invalid username or password.{the Tokens PROBLEM}"
+            : `HTTP error! status: ${response.status}`;
+        throw new Error(errorMessage);
+      }
     }
 
     const data = await response.json();
@@ -44,7 +49,7 @@ export const loginToServer = async (username, password) => {
   }
 };
 
-export const fetchBooksFromServer = async (pageNumber) => {
+export const fetchBooksFromServer = async (page, limit) => {
   try {
     const response = await fetch(`${API_URL}/getall`, {
       method: "POST",
@@ -52,18 +57,14 @@ export const fetchBooksFromServer = async (pageNumber) => {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("accessToken"), // ارسال توکن
       },
-      body: JSON.stringify({
-        page: pageNumber, // شماره صفحه
-        limit: 12, // تعداد کتاب‌ها در هر صفحه
-      }),
+      body: JSON.stringify({ page, limit }),
     });
     if (response.ok) {
-      console.log("Books fetched infetchBooksFromServer>>>>> :", response);
       const data = await response.json();
       return {
         responseStatus: data.success,
         Book_Array: data.output?.[0],
-        totalPages: Math.ceil(data.output?.[0].length / 12), // تعداد صفحات
+        totalBooks: data.output?.[0].length,
       };
     }
   } catch (error) {

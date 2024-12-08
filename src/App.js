@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"; //وارد کردن هوک‌ها: از useState و useEffect برای مدیریت وضعیت و درخواست‌های API استفاده شده
+import { useEffect, useState, useCallback } from "react"; //وارد کردن هوک‌ها: از useState و useEffect برای مدیریت وضعیت و درخواست‌های API استفاده شده
 import { BrowserRouter as Router } from "react-router-dom";
 
 import * as api from "./api";
@@ -10,16 +10,19 @@ const App = () => {
   const [accessToken, setAccessToken] = useState(
     localStorage.getItem("accessToken") || ""
   );
-  const [loading, setLoading] = useState(false); // وضعیت بارگذاری
   const [Books, setBooks] = useState([]); // State management for the list of books//+
-  const [currentPage, setCurrentPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(
+    localStorage.getItem("currentPage")
+      ? parseInt(localStorage.getItem("currentPage"))
+      : 1
+  );
+  const [totalPages, setTotalPages] = useState(0); // برای ذخیره تعداد صفحات کل
+  const [loading, setLoading] = useState(false); // وضعیت بارگذاری
+  const limit = 12;
 
   useEffect(() => {
-    if (accessToken) {
-      fetchBooks(currentPage);
-    }
-  }, [accessToken, currentPage]);
+    localStorage.setItem("currentPage", currentPage);
+  }, [currentPage]);
 
   // const { accessToken } = useContext(AuthContext);
   // ذخیره توکن     // Fetching data from the API when the component mounts//+        // دریافت کتاب‌ها از سرور در هنگام بارگذاری کامپوننت
@@ -55,33 +58,75 @@ const App = () => {
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     setAccessToken(null);
+    localStorage.removeItem("currentPage");
     // localStorage.removeItem("refreshToken");
     // setRefreshToken(null);
   };
 
   const handlePageChange = (newPage) => {
-    if (newPage >= 0 && newPage < totalPages) {
+    if (0 < newPage && newPage <= totalPages) {
+      console.log("»LALL totalPages", currentPage);
       setCurrentPage(newPage); // تغییر صفحه
+      console.log("»LALL totalPages", currentPage);
+      fetchBooks(newPage); // بارگذاری داده‌های صفحه جدید
     }
   };
 
-  const fetchBooks = async (pageNumber) => {
+  const fetchBooks = useCallback(
+    async (page) => {
+      console.log(
+        "const fetchBooks = async (page) => {const fetchBooks = async (page) => {const fetchBooks = async (page) => {",
+        currentPage
+      );
+      try {
+        setLoading(true);
+        const response = await api.fetchBooksFromServer(page, limit);
+        if (response && response.Book_Array) {
+          setBooks(response.Book_Array);
+        }
+        // console.log("FET CHANGE page", page);
+        setLoading(false);
+        if (response.Book_Array.length < limit) {
+          console.error("Reached the end of books!");
+        }
+      } catch (error) {
+        console.log("Error fetching books:", error);
+        setLoading(false);
+        alert(
+          "Failed to fetch books. Please check your connection or credentials."
+        );
+      }
+    },
+    [limit, currentPage]
+  );
+
+  const fetchTotalBooks = useCallback(async () => {
+    console.log(
+      "fetchTotalBooksfetchTotalBooksfetchTotalBooksfetchTotalBooksfetchTotalBooksfetchTotalBooks : ",
+      currentPage
+    );
     try {
-      setLoading(true);
-      const response = await api.fetchBooksFromServer(pageNumber);
-      setBooks(response.Book_Array);
-      setTotalPages(response.totalPages);
-      setLoading(false);
+      const response = await api.fetchBooksFromServer(0, 0); // صفحه 0 برای دریافت تمام کتاب‌ها
+      const totalBooks = response.totalBooks || 0; // تعداد کل کتاب‌ها
+      setTotalPages(Math.ceil(totalBooks / limit)); // محاسبه تعداد صفحات
+      // console.log("»LALL totalPages", totalPages);
     } catch (error) {
-      console.error("Error fetching books:", error);
-      setLoading(false);
-      // alert(
-      //   "Failed to fetch books. Please check your connection or credentials."
-      // );
+      console.error("Error fetching total books:", error);
     }
-  };
+  }, [limit, currentPage]);
 
-  const addBook = async (title, description, pageNumber) => {
+  useEffect(() => {
+    if (accessToken) {
+      fetchTotalBooks().then(() => {
+        fetchBooks(currentPage); // پس از دریافت تعداد صفحات، کتاب‌ها را برای صفحه فعلی بارگذاری می‌کنیم
+      });
+      console.log("BBBBB totalPages", currentPage);
+      setCurrentPage(currentPage);
+      console.log("BBB totalPages", currentPage);
+    }
+  }, [accessToken, currentPage, fetchBooks, fetchTotalBooks]);
+
+  const addBook = async (title, description) => {
     try {
       let token = accessToken;
       // if (!accessToken) {
@@ -89,7 +134,8 @@ const App = () => {
       // }
       // const { newBook } = await api.addBookToServer(title, description, token);
       await api.addBookToServer(title, description, token);
-      await fetchBooks(pageNumber);
+      await fetchBooks(currentPage);
+      fetchTotalBooks();
     } catch (error) {
       console.log("Failed to add book:", error.message);
       alert("Error adding book. Please try again.");
@@ -100,35 +146,14 @@ const App = () => {
     try {
       await api.deleteBookFromServer(id);
       setBooks(Books.filter((book) => book.id !== id));
+      await fetchBooks(currentPage);
+      fetchTotalBooks();
     } catch (error) {
       console.log("Failed to deleteBookAAAA : ", error.message);
       alert("Error dddddeleting book. Please try again.");
     }
   };
 
-  //   // <AuthProvider>
-  //   <div className="container">
-  //     {!accessToken ? ( // اگر لاگین نشده، فرم لاگین را نشان بده
-  //       <Login onLogin={handleLogin} />
-  //     ) : (
-  //       <>
-  //         {/* <p>Current Token: {accessToken}</p> */}
-  // <div className="btns">
-  //   <button className="btn-Logout" onClick={handleLogout}>
-  //     Logout
-  //   </button>
-  // </div>
-  //         <AddBook onAdd={addBook} />
-  //         <BookList
-  //           Books={Books}
-  //           onDelete={deleteBook}
-  //           accessToken={accessToken}
-  //         />
-  //       </>
-  //     )}
-  //   </div>
-  //   // </AuthProvider>
-  // );
   return (
     <Router>
       <AppRoutes

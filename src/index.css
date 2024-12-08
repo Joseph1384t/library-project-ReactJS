@@ -34,7 +34,7 @@ body {
 
 .btn-Logout {
   margin: 0.3vw;
-  width: 80%;
+  width: 50%;
   padding: 0.5rem 0;
   font: inherit;
   background: #6b1d1d;
@@ -57,7 +57,7 @@ body {
 .btn-Booklist,
 .btn-AddBook {
   margin: 0.3vw;
-  width: 8.3vw;
+  width: 50%;
   padding: 0.5rem 0;
   font: inherit;
   background: #40A578;
@@ -77,12 +77,17 @@ body {
 }
 
 @media only screen and (min-width : 500px) {
+  .btns {
+    justify-content: left;
+  }
+
   .btn-Logout {
     width: 20.3vw;
   }
 
-  .btns {
-    justify-content: left;
+  .btn-Booklist,
+  .btn-AddBook {
+    width: 25.3vw;
   }
 }
 
@@ -91,11 +96,21 @@ body {
   .btn-Logout {
     width: 10.3vw;
   }
+
+  .btn-Booklist,
+  .btn-AddBook {
+    width: 10.3vw;
+  }
 }
 
 @media only screen and (min-width : 1500px) {
   .btn-Logout {
     width: 5vw;
+  }
+
+  .btn-Booklist,
+  .btn-AddBook {
+    width: 6vw;
   }
 }
 

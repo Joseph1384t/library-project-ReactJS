@@ -12,32 +12,40 @@ const BookList = ({
   onPageChange,
 }) => {
   return (
-    <div className="Book-list">
+    <div className="Book-list-page">
       {Books && Books.length > 0 ? (
-        Books.map((item) => (
-          <Book key={item.id} Book={item} onDelete={() => onDelete(item.id)} />
-        ))
+        <>
+        <div className="Book-list">
+          {Books.map((item) => (
+            <Book
+              key={item.id}
+              Book={item}
+              onDelete={() => onDelete(item.id)}
+            />
+          ))}
+        </div>
+        
+          <div className="pagination-btns">
+            <button
+              onClick={() => onPageChange(currentPage - 1)}
+              disabled={currentPage <= 1}
+            >
+              Previous
+            </button>
+            <span>
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={() => onPageChange(currentPage + 1)}
+              disabled={currentPage >= totalPages}
+            >
+              Next
+            </button>
+          </div>
+          </>
       ) : (
         <h1> No books available. </h1>
       )}
-
-      <div className="pagination">
-        <button
-          onClick={() => onPageChange(currentPage - 1)}
-          disabled={currentPage <= 0}
-        >
-          Previous
-        </button>
-        <span>
-          Page {currentPage + 1} of {totalPages}
-        </span>
-        <button
-          onClick={() => onPageChange(currentPage + 1)}
-          disabled={currentPage >= totalPages - 1}
-        >
-          Next
-        </button>
-      </div>
     </div>
   );
 };

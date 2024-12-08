@@ -1,10 +1,4 @@
-.Book-list {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: center;
-  gap: 10px;
-
+.Book-list-page {
   h1 {
     color: #6b1d1d;
     padding: 10px;
@@ -25,12 +19,20 @@
   }
 }
 
-.pagination {
+.Book-list {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
+}
+
+.pagination-btns {
   margin-top: 20px;
   text-align: center;
 }
 
-.pagination button {
+.pagination-btns button {
   padding: 10px;
   margin: 5px;
   cursor: pointer;
@@ -40,7 +42,7 @@
   border-radius: 5px;
 }
 
-.pagination button:disabled {
+.pagination-btns button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
 }
